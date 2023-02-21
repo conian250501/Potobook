@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--primary-color);
+  padding: 12px 10%;
+}
+.header__left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.input__search input {
+  width: 400px;
+  padding: 4px;
+  border-radius: 4px;
+}
+.logo__content {
+  margin-bottom: 0;
+  font-size: 30px;
+  font-weight: 500;
+  color: #fff;
+  margin-right: 20px;
+  border: none;
+}
+.header__right .login__link {
+  font-size: 20px;
+  font-weight: 500;
+  color: #fff;
+}

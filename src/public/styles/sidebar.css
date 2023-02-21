@@ -1,0 +1,12 @@
+.navbar__list {
+  list-style: none;
+}
+
+.navbar__item .navbar__link {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+}
+.navbar__item .navbar__link.active {
+  color: var(--primary-color);
+}

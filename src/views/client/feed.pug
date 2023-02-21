@@ -1,0 +1,21 @@
+extends ../layout/mainLayout.pug
+block feedPage
+  .feedPhoto__container.w-100.bg-white 
+    .feedPhoto__page-list.w-100.d-flex.align-item-center.justify-content-center.p-3
+      a.feedPhoto__page-item(href="/" class=title ==="feedPhotoPage" ? "active" : "") Photo
+      a.feedPhoto__page-item(href="/albums") Album
+    .feedPhoto__body.container 
+      .row
+        .col-lg-6.col-md-6.col-sm-12.border.border-primary 
+          .row 
+            .col-lg-6.col-md-6.col-sm-12
+              img(src="/images/avatar-placeholder-01.jpg", alt="")
+            .col-lg-6.col-md-6.col-sm-12
+              .feedPhoto__content-top
+                img(src="/images/avatar-placeholder-01.jpg", alt="")
+                h3.feedPhoto__title Nam tempor posuere faucibus
+                p.feedPhoto__description Aliquam dictum nec massa ac consequat. Etiam dignissim tincidunt tellus sed vestibulum. Sed vitae vestibulum purus. Curabitur malesuada libero in nibh pretium, sed malesuada nisi feugiat.
+              .feedPhoto__content-bottom
+                i(class="fa-solid fa-heart header__icon") 
+                 span 123
+                p.feedPhoto__content-date 4:56 pm 01/04/2018
