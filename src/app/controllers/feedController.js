@@ -1,7 +1,11 @@
 export const feedController = {
   feedPhotoPage: async (req, res, next) => {
     try {
-      return res.render("client/feed", { title: "feedPhotoPage" });
+      return res.render("client/feed", {
+        title: "feedPhotoPage",
+
+        user: req.user,
+      });
     } catch (error) {
       console.log({ error });
       next(error);
@@ -9,7 +13,10 @@ export const feedController = {
   },
   albumPhotoPage: async (req, res, next) => {
     try {
-      return res.render("client/feed", { title: "feedAlbumPage" });
+      return res.render("client/feedAlbum", {
+        title: "feedAlbumPage",
+        user: req.user,
+      });
     } catch (error) {
       console.log({ error });
       next(error);
