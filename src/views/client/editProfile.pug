@@ -1,3 +1,62 @@
 extends ../layout/mainLayout.pug 
 block editProfile
- .editProfile__container.w-100.bg-white 11
+  .editProfile__container.w-100.bg-white.p-3 
+    h1.editProfile__heading Edit user profile
+    .form__wrapper 
+      //-FORM PROFILE
+      form.editProfile__form(action="/my-profile/edit-profile" enctype="multipart/form-data" method="POST")
+        .input__image-wrapper
+          img.image__preview(src= profile.avatar ? profile.avatar : "/images/avatar-placeholder.jpg", alt="")
+          label.input__image-label(for="input__image-avatar") Change
+          input#input__image-avatar(type="file", name="image" hidden)
+        .editProfile__form-group.mt-3
+          label.editProfile__form-label
+          p.editProfile__form-title.mb-0 Basic infomation 
+
+        .editProfile__form-group 
+          label.editProfile__form-label First Name 
+          input.editProfiel__form-input(type="text", value= profile.firstName name="firstName" placeholder="First Name...")
+        .editProfile__form-group 
+          label.editProfile__form-label Last Name 
+          input.editProfiel__form-input(type="text", value= profile.lastName  name="lastName" placeholder="Last Name...")
+        .editProfile__form-group 
+          label.editProfile__form-label Email Name 
+          input.editProfiel__form-input(type="text", value= profile.email name="email" disabled placeholder="Email")
+        .editProfile__form-group 
+          label.editProfile__form-label
+          button.editProfiel__form-input.btn.btn-success(type="submit") Save
+
+      //-FORM PASSWORD
+      form.editProfile__form(action="/my-profile/edit-password" method="POST")
+        .editProfile__form-group.mb-0.mt-3 
+          label.editProfile__form-label
+          p.editProfile__form-title Password 
+        .editProfile__form-group 
+          label.editProfile__form-label Current password 
+          input.editProfiel__form-input(type="text", name="currentPassword" placeholder="*******" required)
+        .editProfile__form-group 
+          label.editProfile__form-label New Password
+          input.editProfiel__form-input(type="text", name="newPassword" placeholder="********"  required)
+        .editProfile__form-group 
+          label.editProfile__form-label Confirm Password
+          input.editProfiel__form-input(type="text", name="confirmPassword" placeholder="*********" required)
+        .editProfile__form-group 
+          label.editProfile__form-label
+          button.editProfiel__form-input.btn.btn-success(type="submit") Save
+
+      if success_message.length > 0
+        p.success_message= success_message
+      if error_message.length > 0
+        p.error_message= error_message
+
+  script.
+    const inputImage = document.querySelector("#input__image-avatar")
+    const imagePlaceholder = document.querySelector(".image__preview")
+
+    inputImage.addEventListener('change', (e)=> {
+      if (e.target.files.length){
+        const src = URL.createObjectURL(e.target.files[0]);
+        imagePlaceholder.src = src;
+        imagePlaceholder.style.display = "block";
+      }
+      })

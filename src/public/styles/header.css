@@ -65,6 +65,14 @@
   font-weight: 600;
   color: #fff;
 }
+
+.btn__admin-page {
+  position: fixed;
+  left: 3%;
+  bottom: 3%;
+  z-index: 1000;
+}
+
 @media screen and (min-width: 1024px) and (max-width: 1439px) {
   .input__search input {
     width: 300px;

@@ -19,6 +19,7 @@ block editAlbum
                   option(value="public" ) Public
                   option(value="private" selected) Private
             .newAlbum__form-group.mt-3
+              .image__list-preview.mb-3
               .row.container.p-0
                 each photo in album.photos
                   .col-lg-6.col-md-12.col-sm-12.mt-3.position-relative
@@ -60,3 +61,21 @@ block editAlbum
     p.success_message= success_message
   if error_message.length > 0
     p.error_message= error_message
+
+  script.
+    const preview = (file) => {
+      const fr = new FileReader();
+      fr.onload = () => {
+        const img = document.createElement("img");
+        img.src = fr.result;  
+        img.alt = file.name;
+        img.setAttribute("class", "image__preview-item");
+        document.querySelector('.image__list-preview').append(img);
+      };
+      fr.readAsDataURL(file);
+    };
+
+    document.querySelector("#newAlbum__form-input-image").addEventListener("change", (e) => {
+      if (!e.target.files) return; // Do nothing.
+      [...e.target.files].forEach(preview);
+    });

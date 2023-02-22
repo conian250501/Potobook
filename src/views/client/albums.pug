@@ -4,7 +4,8 @@ block albumPage
     .myAlbum__header 
       a.btn.btn-success.myAlbum__new-btn(href="/my-albums/new-album") Add new album 
     .myAlbum__body 
-      .row.container.myAlbum__list
+     .container
+      .row.myAlbum__list
         each album in albums
           .col-lg-3.col-md-6.col-sm-12
             .myAlbum__item

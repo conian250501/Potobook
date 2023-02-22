@@ -1,0 +1,28 @@
+.profile__warraper {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 16px;
+}
+.profile__avatar {
+  width: 200px;
+  height: 200px;
+  margin-right: 24px;
+}
+.profile__avatar img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.profile__info-name {
+  font-size: 20px;
+  font-weight: 500;
+  color: #333;
+}
+.profile__info-email {
+  font-size: 16px;
+  font-weight: 400;
+  color: #888;
+  font-style: italic;
+}

@@ -27,6 +27,8 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    albums: [{ type: Schema.Types.ObjectId, ref: "Album", default: [] }],
+    photos: [{ type: Schema.Types.ObjectId, ref: "Photo", default: [] }],
   },
   { timestamps: true }
 );

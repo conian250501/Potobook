@@ -1,21 +1,22 @@
 extends ../layout/defaultLayout
 
 block registerPage
-  .row.login__container
-    .col-sm-6.col-md-4
-      h1.text-center.login-title Potobook Login
-      .account-wall
-        img.profile-img(src='https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120' alt='')
-        form.form-signin(action="/auth/register" method="post")
-          input.form-control.mb-2(type='text' placeholder='First Name' name="firstName" required='' autofocus='')
-          input.form-control.mb-2(type='text' placeholder='Last Name' name="lastName" required='' autofocus='')
-          input.form-control.mb-2(type='text' placeholder='Email' required='' name="email" autofocus='')
-          input.form-control.mb-2(type='password' placeholder='Password' name="password" required='')
-          input.form-control(type='password' placeholder='Password confirm' name="confirmPassword" required='')
-          button.btn.btn-lg.btn-primary.btn-block(type='submit')
-            | Sign up               
-          a.pull-right.need-help.text-center.d-block(href='#')  Forgot password
-          span.clearfix
-    
+  .container.mt-5
+    .row.justify-content-center
+      .col-sm-12.col-md-5.col-lg-4.col-xl-4
+        h1.text-center.login-title Potobook Login
+        .account-wall
+          img.profile-img(src='https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120' alt='')
+          form.form-signin(action="/auth/register" method="post")
+            input.form-control.mb-2(type='text' placeholder='First Name' name="firstName" required='' autofocus='')
+            input.form-control.mb-2(type='text' placeholder='Last Name' name="lastName" required='' autofocus='')
+            input.form-control.mb-2(type='text' placeholder='Email' required='' name="email" autofocus='')
+            input.form-control.mb-2(type='password' placeholder='Password' name="password" required='')
+            input.form-control(type='password' placeholder='Password confirm' name="confirmPassword" required='')
+            button.btn.btn-lg.btn-primary.btn-block(type='submit')
+              | Sign up               
+            a.pull-right.need-help.text-center.d-block(href='#')  Forgot password
+            span.clearfix
+
     if error_message.length > 0
       p.error_message= error_message

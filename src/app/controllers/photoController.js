@@ -35,6 +35,11 @@ export const photoController = {
         author: req.user._id,
       });
 
+      const user = await User.findById({ _id: req.user._id });
+      if (!user) {
+        throw new Error("User not found");
+      }
+
       const imageUrl = `http://${req.host}:${process.env.PORT}/uploads/${req.file.filename}`;
 
       const newPhoto = new Photo({
@@ -44,6 +49,9 @@ export const photoController = {
       });
 
       if (album === "") {
+        user.photos.push(newPhoto._id);
+
+        await user.save();
         await newPhoto.save();
         req.flash("success_message", "Create new photo successfully");
         return res.redirect("back");
@@ -58,6 +66,10 @@ export const photoController = {
         });
         newAlbum.photos.push(newPhoto._id);
         newPhoto.albums.push(newAlbum._id);
+        user.photos.push(newPhoto._id);
+        user.albums.push(newAlbum._id);
+
+        await user.save();
         await newPhoto.save();
         await newAlbum.save();
 
@@ -65,6 +77,10 @@ export const photoController = {
         return res.redirect("back");
       } else {
         newPhoto.albums.push(albumExist._id);
+        user.photos.push(newPhoto._id);
+        user.albums.push(albumExist._id);
+
+        await user.save();
         await newPhoto.save();
         await albumExist.save();
         req.flash("success_message", "Create new photo successfully");
@@ -82,6 +98,9 @@ export const photoController = {
       const photo = await Photo.findById(id)
         .populate("albums")
         .populate("author");
+      if (!photo) {
+        throw new Error("Photo not found");
+      }
 
       return res.render("client/editPhoto", { user: req.user, photo, albums });
     } catch (error) {
@@ -92,6 +111,11 @@ export const photoController = {
     try {
       const { id } = req.params;
       const { album, titleAlbum, descriptionAlbum, modeAlbum } = req.body;
+
+      const user = await User.findById({ _id: req.user._id });
+      if (!user) {
+        throw new Error("User not found");
+      }
 
       const albumExist = await Album.findOne({
         title: album,
@@ -111,11 +135,12 @@ export const photoController = {
             mode: modeAlbum,
             author: req.user._id,
           });
-
           await photo.updateOne({ ...req.body });
-
+          user.albums.push(newAlbum._id);
           newAlbum.photos.push(photo._id);
           photo.albums.push(newAlbum._id);
+
+          await user.save();
           await newAlbum.save();
           await photo.save();
         } else {
@@ -159,6 +184,9 @@ export const photoController = {
 
         newAlbum.photos.push(photo._id);
         photo.albums.push(newAlbum._id);
+        user.albums.push(newAlbum._id);
+
+        await user.save();
         await newAlbum.save();
         await photo.save();
       } else {
@@ -204,8 +232,12 @@ export const photoController = {
         return res.redirect("back");
       }
 
+      await User.updateMany(
+        { _id: photo.author },
+        { $pull: { photos: photo._id } }
+      );
       await Album.updateMany(
-        { _id: photo?.albums },
+        { _id: photo.albums },
         { $pull: { photos: photo._id } }
       );
       req.flash("success_message", "Delete photo successfully");

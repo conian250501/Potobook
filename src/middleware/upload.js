@@ -11,4 +11,16 @@ const storage = multer.diskStorage({
     cb(null, file.fieldname + "-" + Date.now() + "-" + file.originalname);
   },
 });
-export const upload = multer({ storage: storage });
+const filterImage = function (req, file, cb) {
+  var ext = path.extname(file.originalname);
+  if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg") {
+    req.flash("error__message", "Required file is .jpg || .gif || .jpeg");
+    return cb("Required file is .jpg || .gif || .jpeg", false);
+  }
+  cb(null, true);
+};
+
+export const upload = multer({
+  storage: storage,
+  fileFilter: filterImage,
+});

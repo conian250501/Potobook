@@ -28,7 +28,7 @@ block feedPage
         if page > 1
           li.page-item
             a.page-link(href=`/?page=${Number(page) - 1}`) Previous
-        -for(let i = 1; i < totalPage; i++)
+        -for(let i = 1; i <= totalPage; i++)
           if Number(page) === i 
             li.page-item
               a.page-link.bg-primary.text-white(href=`/?page=${i}`)= i

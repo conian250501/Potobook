@@ -1,0 +1,9 @@
+nav.navbar__container
+  if user
+    ul.navbar__list
+      li.navbar__item 
+        a.navbar__link(href="/admin" class=title=== "adminPhotoPage" ? "active" : "") Manage Photos
+      li.navbar__item 
+        a.navbar__link(href="/admin/albums" class=title=== "adminAlbumPage" ? "active" : "") Manage Albums
+      li.navbar__item 
+        a.navbar__link(href="/admin/users" class=title=== "adminUserPage" ? "active" : "") Manage Users

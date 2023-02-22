@@ -33,7 +33,6 @@ block editPhoto
             .newPhoto__form-newAlbum.w-100.bg-primary.p-2.text-white New album
             label.p-1.text-danger.text-notify *Select your album or create a new one
             select.newPhoto__form-select-album.mb-3.w-50.p-2(type="text", name="album")
-
               each album in albums
                 option(value= album.title)= album.title
             .newPhoto__form-group 
@@ -53,6 +52,7 @@ block editPhoto
               .modal-footer
                 button.btn.border.border-success(type='button' data-dismiss='modal') Close
                 a.btn.btn-danger(href="/my-photos/delete-photo/" + photo._id) Delete
+            
   if success_message.length > 0
     p.success_message= success_message
   if error_message.length > 0

@@ -1,3 +1,12 @@
-extends ../layout/mainLayout.pug
-block profile
- .profile__container.w-100.bg-white profile
+extends ../layout/mainLayout.pug 
+block profile 
+  .profile__container.w-100.bg-white
+    .profile__warraper
+      .profile__avatar 
+        img(src= user.avatar ? user.avatar : "/images/avatar-placeholder.jpg", alt="")
+      .profile__info 
+        h2.profile__info-name= user.firstName + " " + user.lastName
+        p.profile__info-email= user.email 
+        .profile__btn
+          a.btn.btn-success.text-white(href="/my-profile/edit-profile") Edit 
+          a.btn.btn-danger.text-white.ml-3(href="#") Delete

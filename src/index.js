@@ -36,8 +36,8 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(bodyParser.json({ limit: "100000mb" }));
-app.use(bodyParser.urlencoded({ extended: true, limit: "1000000mb" }));
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(function (req, res, next) {
   res.locals.success_message = req.flash("success_message");
@@ -52,10 +52,8 @@ viewEngine(app);
 // SET ROUTER
 rootRouter(app);
 
-// Cath error 404
-app.use((req, res, next) => {
-  const error = new Error("Not found");
-  res.render("error/error", { error: error.message });
+app.use((err, req, res, next) => {
+  res.render("error/error", { error: err.message });
 });
 
 app.listen(port, () => {

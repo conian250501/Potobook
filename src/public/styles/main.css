@@ -45,3 +45,9 @@ body {
   color: white;
   padding: 8px;
 }
+
+@media screen and (max-width: 767px) {
+  .container__main {
+    padding: 12px 4%;
+  }
+}

@@ -29,8 +29,12 @@ export const authController = {
     }
   },
   logout: (req, res, next) => {
-    req.logout();
-    req.flash("success_message", "Logout Successfully");
-    res.redirect("/auth/login");
+    req.logout(function (err) {
+      if (err) {
+        next(err);
+      }
+      req.flash("success_message", "Logout Successfully");
+      res.redirect("/auth/login");
+    });
   },
 };

@@ -14,8 +14,8 @@ block newAlbum
               select.newAlbum__form-select.w-50.p-2.d-block(type="text", name="mode" )
                 option(value="public") Public
                 option(value="private") Private
-            .newAlbum__form-group.d-flex.align-items-center.justify-content-start.g-2.mt-3
-              //-img.newAlbum__form-image(src="", alt="")
+            .newAlbum__form-group.g-2.mt-3
+              .image__list-preview.mb-3
               label.newAlbum__form-label-image(for="newAlbum__form-input-image")
                 i(class="fa-solid fa-plus plus__icon")
               input#newAlbum__form-input-image.w-100(type="file", multiple hidden   name="images")
@@ -31,3 +31,20 @@ block newAlbum
     p.success_message= success_message
   if error_message.length > 0
     p.error_message= error_message
+  script.
+    const preview = (file) => {
+      const fr = new FileReader();
+      fr.onload = () => {
+        const img = document.createElement("img");
+        img.src = fr.result;  // String Base64 
+        img.alt = file.name;
+        img.setAttribute("class", "image__preview-item");
+        document.querySelector('.image__list-preview').append(img);
+      };
+      fr.readAsDataURL(file);
+    };
+
+    document.querySelector("#newAlbum__form-input-image").addEventListener("change", (ev) => {
+      if (!ev.target.files) return; // Do nothing.
+      [...ev.target.files].forEach(preview);
+    });

@@ -11,9 +11,8 @@ block feedAlbumPage
             .row.p-0.container.feedPhoto__item.m-0.p-0
               .col-lg-6.col-md-6.col-sm-12.p-0
                 .feedPhoto__body-image-list
-                  img.feedPhoto__body-image-item(src="/images/avatar-placeholder-01.jpg", alt="")
-                  img.feedPhoto__body-image-item(src="/images/avatar-placeholder-01.jpg", alt="")
-                  img.feedPhoto__body-image-item(src="/images/avatar-placeholder-01.jpg", alt="")
+                 each photo in album.photos
+                  img.feedPhoto__body-image-item(src= photo.image, alt="")
               .col-lg-6.col-md-6.col-sm-12.p-3.p-0.feedPhoto__content
                 .feedPhoto__content-top
                   .user__info.d-flex.align-items-center.justify-content-start 
@@ -21,17 +20,17 @@ block feedAlbumPage
                     p.user_name.mb-0.ml-2= album.author.firstName + " " + album.author.lastName
                   h3.feedPhoto__title= album.title
                   p.feedPhoto__description= album.description
-                .feedPhoto__content-bottom.d-flex.align-items-center.justify-content-between
+                .feedPhoto__content-bottom.d-flex.align-items-center.justify-content-between.w-100
                   .like__number.d-flex.align-items-center.justify-content-start
                     i(class="fa-solid fa-heart header__icon text-primary") 
                     span.amount__like 123
-                  p.feedPhoto__content-date.mb-0 4:56 pm 01/04/2018
+                  p.feedPhoto__content-date.mb-0.text-nowrap 4:56 pm 01/04/2018
     nav(aria-label='Page navigation')
       ul.pagination.justify-content-center.pb-3
         if page > 1
           li.page-item
             a.page-link(href=`/albums/?page=${Number(page) - 1}`) Previous
-        -for(let i = 1; i < totalPage; i++)
+        -for(let i = 1; i <= totalPage; i++)
           if Number(page) === i 
             li.page-item
               a.page-link.bg-primary.text-white(href=`/albums/?page=${i}`)= i

@@ -1,0 +1,82 @@
+extends ../layout/adminLayout.pug 
+block editAlbum
+  .newAlbum__container.w-100.bg-white.p-3
+    .newAlbum__heading New ALbum
+    .newAlbum__body 
+      form.newAlbum__form(action="/admin/edit-album/" + album._id enctype="multipart/form-data" method="post")
+        .row.container
+          .col-lg-6.col-md-6.col-sm-12
+            input(type="text" name="userId" value= album.author._id hidden)
+            .newAlbum__form-group 
+              label.newAlbum__form-label.d-block Title
+              input.newAlbum__form-input(type="text", value= album.title name="title" placeholder="Album Title" required)
+            .newAlbum__form-group 
+              label.newAlbum__form-label.d-block Sharing mode
+              select.newAlbum__form-select.w-50.p-2.d-block(type="text", name="mode" )
+                if album.mode === "public"
+                  option(value="public" selected) Public
+                  option(value="private") Private
+                else
+                  option(value="public" ) Public
+                  option(value="private" selected) Private
+            .newAlbum__form-group.mt-3
+              .image__list-preview.mb-3
+              .row.container.p-0
+                each photo in album.photos
+                  .col-lg-6.col-md-12.col-sm-12.mt-3.position-relative
+                    img.newAlbum__form-image(src= photo.image, alt="")
+                    i(class="fa-solid fa-xmark remove__icon" data-toggle="modal" data-target="#modal__delete-photoAlbum" + photo._id)
+                    .fade.modal(id="modal__delete-photoAlbum" + photo._id)
+                      .modal-dialog.modal-dialog-centered
+                        .modal-content
+                          .modal-header
+                            h4.modal-title= photo.title 
+                            button.close(type='button' data-dismiss='modal') &times;
+                          .modal-body
+                            p.modal-body-content.mb-0.h5.text-danger Are sure delete this Photo? 
+                          .modal-footer
+                            button.btn.border.border-success(type='button' data-dismiss='modal') Close
+                            a.btn.btn-danger(href="/admin/delete-photoOfAlbum/" + photo._id) Delete
+              label.newAlbum__form-label-image.mt-3(for="newAlbum__form-input-image")
+                i(class="fa-solid fa-plus plus__icon" )  
+              input#newAlbum__form-input-image.w-100(type="file", multiple hidden name="images")
+          .col-lg-6.col-md-6.col-sm-12
+            .newAlbum__form-group 
+              label.newAlbum__form-label.d-block Description
+              textarea.newAlbum__form-input(type="text", name="description" placeholder="Description Album" cols="30", rows="6" )= album.description
+        .newAlbum__form-btn
+          button.btn.btn-success.ml-3.mt-3(type="submit") Save
+          button.btn.btn-danger.ml-3.mt-3(type="button" data-toggle="modal" data-target="#modal__delete-album") Delete
+          #modal__delete-album.fade.modal
+            .modal-dialog.modal-dialog-centered
+              .modal-content
+                .modal-header
+                  h4.modal-title= album.author.firstName + " " + album.author.lastName
+                  button.close(type='button' data-dismiss='modal') &times;
+                .modal-body
+                  p.modal-body-content.mb-0.h5.text-danger Are sure delete this album? 
+                .modal-footer
+                  button.btn.border.border-success(type='button' data-dismiss='modal') Close
+                  a.btn.btn-danger(href="/admin/delete-album/" + album._id) Delete
+  if success_message.length > 0
+    p.success_message= success_message
+  if error_message.length > 0
+    p.error_message= error_message
+
+  script.
+    const preview = (file) => {
+      const fr = new FileReader();
+      fr.onload = () => {
+        const img = document.createElement("img");
+        img.src = fr.result;  
+        img.alt = file.name;
+        img.setAttribute("class", "image__preview-item");
+        document.querySelector('.image__list-preview').append(img);
+      };
+      fr.readAsDataURL(file);
+    };
+
+    document.querySelector("#newAlbum__form-input-image").addEventListener("change", (e) => {
+      if (!e.target.files) return; // Do nothing.
+      [...e.target.files].forEach(preview);
+    });

@@ -14,9 +14,10 @@ header.header
         h3.user__info-name.mb-0.ml-3= user.firstName + " " + user.lastName
       .btn__logout.ml-3
         a.btn.btn-danger(href="/auth/logout") Logout
-
     else
       a.login__link(href="/auth/login") login
+    if user && user.isAdmin
+      a.btn.btn-primary.btn__admin-page(href="/admin") Admin Page
 
 #navbar__toggle.collapse
   nav.navbar__container-mobile

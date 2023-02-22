@@ -1,0 +1,35 @@
+extends ../layout/adminLayout.pug 
+block users
+  .usersAdmin__container.w-100.bg-white
+    table.table.table-responsive 
+      thead 
+        tr 
+          th.text-nowrap First Name 
+          th.text-nowrap Last Name 
+          th.text-nowrap Email 
+          th.text-nowrap Last Login 
+          th.text-nowrap 
+          th.text-nowrap
+      tbody
+        each user in users 
+          tr 
+            td=user.firstName
+            td=user.lastName
+            td=user.email
+            td=user.createdAt
+            td 
+              a.btn.btn-success(href="/admin/edit-user/" + user._id) Edit
+            td   
+              button.btn.btn-danger(type="button" data-toggle="modal" data-target="#modal__delete-user" + user._id) Delete
+              .fade.modal(id="modal__delete-user" + user._id)
+                .modal-dialog.modal-dialog-centered
+                  .modal-content
+                    .modal-header
+                      h4.modal-title= user.firstName + " " + user.lastName
+                      button.close(type='button' data-dismiss='modal') &times;
+                    .modal-body
+                      p.modal-body-content.mb-0.h5.text-danger Are sure delete this user? 
+                    .modal-footer
+                      button.btn.border.border-success(type='button' data-dismiss='modal') Close
+                      form(action="/admin/delete-user/" + user._id method="DELETE")
+                       button.btn.btn-danger(type="submit") Delete

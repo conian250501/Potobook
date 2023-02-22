@@ -1,21 +1,22 @@
 extends ../layout/defaultLayout.pug
 
 block loginPage 
-  .row.login__container
-    .col-sm-6.col-md-4.col-md-offset-4
-      h1.text-center.login-title Potobook Login
-      .account-wall
-        img.profile-img(src='https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120' alt='')
-        form.form-signin(action="/auth/login" method="POST")
-          input.form-control(type='text' placeholder='Email' name="email" required='' autofocus='')
-          input.form-control(type='password' placeholder='Password' name="password" required='')
-          button.btn.btn-lg.btn-primary.btn-block(type='submit')
-            | Sign in                  
-          a.pull-right.need-help.text-center.d-block(href='#')  Forgot password
-          span.clearfix
-      a.text-center.new-account(href='/auth/register') Create an account 
+  .container.mt-5
+    .row.justify-content-center
+      .col-sm-12.col-md-5.col-lg-4.col-xl-4
+        h1.text-center.login-title Potobook Login
+        .account-wall
+          img.profile-img(src='https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120' alt='')
+          form.form-signin(action="/auth/login" method="POST")
+            input.form-control.mb-2(type='text' placeholder='Email' name="email" required='' autofocus='')
+            input.form-control(type='password' placeholder='Password' name="password" required='')
+            button.btn.btn-lg.btn-primary.btn-block(type='submit')
+              | Sign in                  
+            a.pull-right.need-help.text-center.d-block(href='#')  Forgot password
+            span.clearfix
+        a.text-center.new-account(href='/auth/register') Create an account 
 
-    if success_message.length > 0
-      p.success_message= success_message
-    if error_message.length > 0
-      p.error_message= error_message
+      if success_message.length > 0
+        p.success_message= success_message
+      if error_message.length > 0
+        p.error_message= error_message

@@ -36,6 +36,7 @@ export const feedController = {
 
       const albums = await Album.find({ mode: "public" })
         .populate("author")
+        .populate("photos")
         .skip((page - 1) * perPage)
         .limit(perPage);
       console.log(albums);
