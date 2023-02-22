@@ -28,3 +28,72 @@
   font-weight: 500;
   color: #fff;
 }
+.user__info {
+  display: flex;
+}
+.user__info-avatar {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 100rem;
+}
+.user__info-name {
+  font-size: 20px;
+  font-weight: 500;
+  color: #fff;
+}
+
+.header__menu-bar {
+  display: none;
+}
+.header__menu-bar {
+  font-size: 24px;
+  color: #fff;
+}
+#navbar__toggle {
+  background-color: var(--primary-color);
+}
+.navbar__container-mobile {
+  padding: 12px 10%;
+}
+.navbar__list-mobile {
+  list-style: none;
+  margin-bottom: 0;
+}
+.navbar__item-mobile .navbar__link {
+  font-size: 20px;
+  font-weight: 600;
+  color: #fff;
+}
+@media screen and (min-width: 1024px) and (max-width: 1439px) {
+  .input__search input {
+    width: 300px;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .input__search input {
+    display: none;
+  }
+  .header__menu-bar {
+    display: block;
+  }
+}
+@media screen and (max-width: 768px) {
+  .header__menu-bar {
+    display: block;
+    font-size: 20px;
+  }
+  .user__info {
+    display: none !important;
+  }
+  .input__search input {
+    display: none;
+  }
+  .logo__content {
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .navbar__item-mobile .navbar__link {
+    font-size: 18px;
+  }
+}

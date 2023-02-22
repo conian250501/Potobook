@@ -1,10 +1,46 @@
 import express from "express";
 import { albumController } from "../controllers/albumController";
+import { authMiddleware } from "../../middleware/authMiddleware";
+import { routerHelper, schemas } from "../../helper/routerHelper";
+import { upload } from "../../middleware/upload";
 export const albumRouter = express.Router();
 
-albumRouter.get("/", albumController.albumPage);
-albumRouter.get("/new-album", albumController.newAlbumPage);
-albumRouter.post("/new-album", albumController.newAlbum);
-albumRouter.get("/edit-album/:id", albumController.editAlbumPage);
-albumRouter.post("/edit-album/:id", albumController.editAlbum);
-albumRouter.get("/delete-album/:id", albumController.deleteAlbum);
+albumRouter.get(
+  "/",
+  authMiddleware.ensureUserIsAuthenticated,
+  albumController.albumPage
+);
+albumRouter.get(
+  "/new-album",
+  authMiddleware.ensureUserIsAuthenticated,
+  albumController.newAlbumPage
+);
+albumRouter.post(
+  "/new-album",
+  authMiddleware.ensureUserIsAuthenticated,
+  upload.array("images", 12),
+  routerHelper.validateBody(schemas.newAlbum),
+  albumController.newAlbum
+);
+albumRouter.get(
+  "/edit-album/:id",
+  authMiddleware.ensureUserIsAuthenticated,
+  albumController.editAlbumPage
+);
+albumRouter.post(
+  "/edit-album/:id",
+  authMiddleware.ensureUserIsAuthenticated,
+  upload.array("images", 12),
+  routerHelper.validateBody(schemas.editAlbum),
+  albumController.editAlbum
+);
+albumRouter.get(
+  "/delete-album/:id",
+  authMiddleware.ensureUserIsAuthenticated,
+  albumController.deleteAlbum
+);
+albumRouter.get(
+  "/delete-photo/:id",
+  authMiddleware.ensureUserIsAuthenticated,
+  albumController.deletePhotoOfAlbum
+);

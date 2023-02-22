@@ -1,0 +1,33 @@
+extends ../layout/mainLayout.pug 
+block newAlbum
+  .newAlbum__container.w-100.bg-white.p-3
+    .newAlbum__heading New ALbum
+    .newAlbum__body 
+      form.newAlbum__form(action="/my-albums/new-album" enctype="multipart/form-data" method="post")
+        .row.container
+          .col-lg-6.col-md-6.col-sm-12
+            .newAlbum__form-group 
+              label.newAlbum__form-label.d-block Title
+              input.newAlbum__form-input(type="text", name="title" placeholder="Album Title" required)
+            .newAlbum__form-group 
+              label.newAlbum__form-label.d-block Sharing mode
+              select.newAlbum__form-select.w-50.p-2.d-block(type="text", name="mode" )
+                option(value="public") Public
+                option(value="private") Private
+            .newAlbum__form-group.d-flex.align-items-center.justify-content-start.g-2.mt-3
+              //-img.newAlbum__form-image(src="", alt="")
+              label.newAlbum__form-label-image(for="newAlbum__form-input-image")
+                i(class="fa-solid fa-plus plus__icon")
+              input#newAlbum__form-input-image.w-100(type="file", multiple hidden   name="images")
+
+
+          .col-lg-6.col-md-6.col-sm-12
+            .newAlbum__form-group 
+              label.newAlbum__form-label.d-block Description
+              textarea.newAlbum__form-input(type="text", name="description" placeholder="Description Album" cols="30", rows="6" required)
+        .newAlbum__form-btn
+          button.btn.btn-success.ml-3.mt-3(type="submit") Save
+  if success_message.length > 0
+    p.success_message= success_message
+  if error_message.length > 0
+    p.error_message= error_message

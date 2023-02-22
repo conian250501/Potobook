@@ -1,0 +1,49 @@
+.myphoto__header {
+  padding: 12px 0;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding-right: 16px;
+}
+.myPhoto__item {
+  position: relative;
+  margin-top: 24px;
+}
+.myPhoto__item > img {
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+.myPhoto__item-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 6px 8px;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.myPhoto__item-title {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+}
+.myPhoto__private {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  border-radius: 100rem;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,9 +1,18 @@
 extends ../layout/mainLayout.pug 
 block photoPage 
-  .myPhoto__container.w-100.bg-white 
+  .myPhoto__container.w-100.bg-white.py-3 
     .myphoto__header 
-      a.btn.btn-success.myPhoto__new-btn(href="/my-photos/new-photo") Add new pho 
+      a.btn.btn-success.myPhoto__new-btn(href="/my-photos/new-photo") Add new photo 
     .myPhoto__body 
-     .row.container.myPhoto__list 
-      .col-lg-3.col-md-6.col-sm-12.myPhoto__item
-       img(src="/images/avatar-placeholder-01.jpg", alt="")
+      .row.container.myPhoto__list
+        each photo in photos
+          .col-lg-3.col-md-6.col-sm-12
+            .myPhoto__item
+              img.myPhoto__item-img(src= photo.image, alt="")
+              .myPhoto__item-content
+                p.myPhoto__item-title= photo.title
+                a.myPhoto__item-editIcon.d-block(href="my-photos/edit-photo/" + photo._id) 
+                  i(class="fa-solid fa-pen-to-square text-white")
+              if photo.mode === "private"
+                .myPhoto__private.bg-white 
+                  i(class="fa-solid fa-lock")

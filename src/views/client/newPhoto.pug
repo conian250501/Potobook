@@ -1,0 +1,139 @@
+extends ../layout/mainLayout.pug
+block newPhoto
+  .newPhoto__container.w-100.bg-white.p-3
+    .newPhoto__heading New photo
+    .newPhoto__body 
+      form.newPhoto__form(action="/my-photos/new-photo" enctype="multipart/form-data" method="post")
+        .row.container
+          .col-lg-6.col-md-6.col-sm-12
+            .newPhoto__form-group 
+              label.newPhoto__form-label.d-block Title
+              input.newPhoto__form-input(type="text", name="title" placeholder="Photo Title" required)
+            .newPhoto__form-group 
+              label.newPhoto__form-label.d-block Sharing mode
+              select.newPhoto__form-select.w-50.p-2.d-block(type="text", name="mode")
+                option(value="public") Public
+                option(value="private") Private
+            .newPhoto__form-group.d-flex.align-items-center.justify-content-start.g-2.mt-3
+              img.newPhoto__form-image(src="", alt="")
+              label.newPhoto__form-label-image(for="newPhoto__form-input-image")
+                i(class="fa-solid fa-plus plus__icon")
+              input#newPhoto__form-input-image.w-100(type="file", name="image" hidden)
+
+
+          .col-lg-6.col-md-6.col-sm-12
+
+            .align-items-center.justify-content-between.mb-2.group_new-aLbum
+              h3.heading__newAlbum New album
+              span.remove__newAlbum Remove
+            .newPhoto__form-group-newAlbum
+            .newPhoto__form-newAlbum.w-100.bg-primary.p-2.text-white New album
+            label.p-1.text-danger.text-notify *Select your album or create a new one
+            select.newPhoto__form-select-album.mb-3.w-50.p-2(type="text", name="album")
+              option(value="") none
+              each album in albums
+                option(value= album.title)= album.title
+            .newPhoto__form-group 
+              label.newPhoto__form-label.d-block Description
+              textarea.newPhoto__form-input(type="text", name="description" placeholder="Description Title" cols="30", rows="6" required)
+        .newPhoto__form-btn
+          button.btn.btn-success.ml-3.mt-3(type="submit") Save
+  if success_message.length > 0
+    p.success_message= success_message
+  if error_message.length > 0
+    p.error_message= error_message
+
+  script.
+    const inputImage = document.querySelector("#newPhoto__form-input-image")
+    const imagePlaceholder = document.querySelector(".newPhoto__form-image")
+    const buttonNewAlbum = document.querySelector(".newPhoto__form-newAlbum")
+    const selectAlbum = document.querySelector(".newPhoto__form-select-album")
+    const newAlbumParent = document.querySelector(".newPhoto__form-group-newAlbum")
+    const groupNewAlbum = document.querySelector(".group_new-aLbum")
+    const textNotify = document.querySelector(".text-notify")
+
+    imagePlaceholder.style.display = "none"
+    inputImage.addEventListener('change', (e)=> {
+      if (e.target.files.length){
+      const src = URL.createObjectURL(e.target.files[0]);
+      imagePlaceholder.src = src;
+      imagePlaceholder.style.display = "block";
+      }
+    })
+
+    //- FUNCTION SET ATTRIBUTES
+    function setAttributes(el, attrs) {
+      for(var key in attrs) {
+        el.setAttribute(key, attrs[key]);
+      }
+    }
+
+    groupNewAlbum.style.display= "none";
+    //- ADD NEW ALBUM
+    buttonNewAlbum.addEventListener('click', function(){
+      selectAlbum.style.display = "none";
+      selectAlbum.name= ""
+      textNotify.style.display = "none";
+      this.style.display="none";
+      newAlbumParent.style.display ="block";
+      groupNewAlbum.style.display="flex"
+
+      const inputTitleAlbum = document.createElement("input")
+      const inputDescriptionAlbum = document.createElement("input")
+      const modeAlbum = document.createElement("select")
+      const optionModePublic = document.createElement("option")
+      const optionModePrivate = document.createElement("option")
+
+      setAttributes(modeAlbum, {
+        "name": "modeAlbum", 
+        "class": "newPhoto__form-mode-album w-50 p-2 mb-2",
+        })
+      setAttributes(optionModePublic, {
+        "value": "public", 
+        })
+      setAttributes(optionModePrivate, {
+        "value": "private", 
+        })
+      setAttributes(inputTitleAlbum, {
+        "type": "text",
+        "name": "titleAlbum", 
+        "class": "newPhoto__form-input titleAlbum",
+        "placeholder": "Title album",
+        "required" : "true",
+        })
+
+      setAttributes(inputDescriptionAlbum, {
+        "type": "text",
+        "name": "descriptionAlbum", 
+        "class": "newPhoto__form-input descriptionAlbum",
+        "placeholder": "Description album",
+        "required" : "true"
+        })
+
+      optionModePublic.innerHTML = "Public"
+      optionModePrivate.innerHTML = "Private"
+
+      modeAlbum.appendChild(optionModePublic)
+      modeAlbum.appendChild(optionModePrivate)
+      newAlbumParent.appendChild(inputTitleAlbum)
+      newAlbumParent.appendChild(inputDescriptionAlbum)
+      newAlbumParent.appendChild(modeAlbum)
+    })
+
+    const removeNewAlbumBtn = document.querySelector(".remove__newAlbum")
+
+    //- const newAlbumParent = document
+    removeNewAlbumBtn.addEventListener("click", function() {
+      selectAlbum.style.display = "block";
+      selectAlbum.name= "album"
+      newAlbumParent.style.display="none";
+      buttonNewAlbum.style.display="block"
+      groupNewAlbum.style.display="none"
+
+      const titleAlbum = document.querySelector(".titleAlbum")
+      const inputDescriptionAlbum = document.querySelector(".descriptionAlbum")
+      const modeAlbum = document.querySelector(".newPhoto__form-mode-album")
+      titleAlbum.remove()
+      inputDescriptionAlbum.remove()
+      modeAlbum.remove()
+    })

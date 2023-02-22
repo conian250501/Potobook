@@ -1,0 +1,63 @@
+.myAlbum__header {
+  padding: 12px 0;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding-right: 16px;
+}
+.myAlbum__item {
+  position: relative;
+  background-color: #ccc;
+  margin-top: 24px;
+}
+
+.myAlbum__item-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding: 6px 8px;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+.myAlbum__item-title {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+}
+.myAlbum__private {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  border-radius: 100rem;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.myAlbum__item-img-list {
+  position: relative;
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.myAlbum__item-img-item {
+  position: absolute;
+  height: 90%;
+  width: 90%;
+  object-fit: cover;
+}
+.myAlbum__item-img-item:nth-child(2n) {
+  transform: rotate(-15deg);
+}

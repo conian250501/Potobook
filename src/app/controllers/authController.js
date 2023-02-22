@@ -28,4 +28,9 @@ export const authController = {
       next(error);
     }
   },
+  logout: (req, res, next) => {
+    req.logout();
+    req.flash("success_message", "Logout Successfully");
+    res.redirect("/auth/login");
+  },
 };

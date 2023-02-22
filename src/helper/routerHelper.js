@@ -12,6 +12,42 @@ export const schemas = {
     email: Joi.string().email().required(),
     password: Joi.string().required(),
   }),
+  editPhoto: Joi.object({
+    title: Joi.string().max(140),
+    description: Joi.string().max(300),
+    image: Joi.string(),
+    images: Joi.array(),
+    mode: Joi.string(),
+    album: Joi.string().allow(""),
+    modeAlbum: Joi.string(),
+    titleAlbum: Joi.string(),
+    descriptionAlbum: Joi.string(),
+  }),
+  newPhoto: Joi.object({
+    title: Joi.string().max(255).required(),
+    description: Joi.string().max(255).required(),
+    image: Joi.string().required(),
+    images: Joi.array(),
+    mode: Joi.string().required(),
+    album: Joi.string().allow(""),
+    modeAlbum: Joi.string(),
+    titleAlbum: Joi.string(),
+    descriptionAlbum: Joi.string(),
+  }),
+  newAlbum: Joi.object({
+    title: Joi.string().max(255).required(),
+    description: Joi.string().max(255).required(),
+    image: Joi.string(),
+    images: Joi.array().required(),
+    mode: Joi.string().required(),
+  }),
+  editAlbum: Joi.object({
+    title: Joi.string().max(255),
+    description: Joi.string().max(255),
+    image: Joi.string(),
+    images: Joi.array(),
+    mode: Joi.string(),
+  }),
 };
 
 export const routerHelper = {

@@ -9,6 +9,11 @@ html(lang="en")
     link(rel="stylesheet", href="/styles/header.css")
     link(rel="stylesheet", href="/styles/sidebar.css")
     link(rel="stylesheet", href="/styles/feed.css")
+    link(rel="stylesheet", href="/styles/photos.css")
+    link(rel="stylesheet", href="/styles/formPhoto.css")
+    link(rel="stylesheet", href="/styles/formAlbum.css")
+    link(rel="stylesheet", href="/styles/albums.css")
+    link(rel="stylesheet", href="/styles/profile.css")
 
     //- BOOTSTRAP AND FONTAWESOME
     link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css")
@@ -16,14 +21,22 @@ html(lang="en")
   body 
     include ../partials/header.pug
     .container__main
-     .row 
-      .col-lg-2.col-md-2.col-sm-0
-       include ../partials/sidebar.pug
-      .col-lg-10.col-md-10.col-sm-12
-       block feedPage
-       block feedAlbumPage
-       block photoPage 
-       block albumPage 
+      .row 
+        div(class= user ? "col-lg-2 col-md-0 col-sm-0" : "col-lg-0 col-md-0 col-sm-0")
+          include ../partials/sidebar.pug
+        div(class=user ? "col-lg-10 col-md-12 col-sm-12" : "col-lg-12 col-md-12 col-sm-12")
+          block profile
+          block editProfile
+          block feedPage
+          block feedAlbumPage
+          block photoPage 
+          block albumPage 
+          block newPhoto
+          block editPhoto
+          block newAlbum
+          block editAlbum
+
+
 
 
 

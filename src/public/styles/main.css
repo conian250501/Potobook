@@ -11,6 +11,7 @@
   margin: 0;
   padding: 0;
   font: inherit;
+  transition: all 0.2s linear;
 }
 img,
 picture,
@@ -29,7 +30,7 @@ body {
   margin: 24px 0;
 }
 .error_message {
-  position: absolute;
+  position: fixed;
   left: 40px;
   top: 10%;
   background-color: red;
@@ -37,7 +38,7 @@ body {
   padding: 8px;
 }
 .success_message {
-  position: absolute;
+  position: fixed;
   left: 40px;
   top: 10%;
   background-color: rgb(0, 81, 255);

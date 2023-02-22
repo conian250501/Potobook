@@ -4,13 +4,13 @@ export const authMiddleware = {
       return next();
     }
     req.flash("error_message", "Please log in to access the reqed page");
-    res.redirect("/users/login");
+    res.redirect("/auth/login");
   },
 
   forwardAuthenticatedUser: (req, res, next) => {
     if (!req.isAuthenticated()) {
       return next();
     }
-    res.redirect("/home");
+    res.redirect("/");
   },
 };

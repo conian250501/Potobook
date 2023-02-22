@@ -16,14 +16,15 @@ const albumSchema = new Schema(
       {
         type: Schema.Types.ObjectId,
         ref: "Photo",
+        default: [],
       },
     ],
     author: {
       type: Schema.Types.ObjectId,
-      ref: "User  ",
+      ref: "User",
     },
   },
   { timestamps: true }
 );
 
-export const Album = mongoose.model("Photo", albumSchema);
+export const Album = mongoose.model("Album", albumSchema);

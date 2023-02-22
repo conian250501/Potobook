@@ -1,8 +1,30 @@
 header.header
   .header__left
+    .header__menu-bar.mr-3(href="#navbar__toggle" data-toggle="collapse")
+      i(class="fa-solid fa-bars" )
     .logo 
       p.logo__content Potobook
     .input__search
       input(type="text" placeholder="Search photo / album")
-  .header__right
+
+  .header__right.d-flex.align-items-center.justify-content-start 
+    if user
+      a.user__info.align-items-center.justify-content-start(href="/my-profile")
+        img.user__info-avatar(src=user.avatar ? user.avatar : "/images/avatar-placeholder.jpg", alt="")
+        h3.user__info-name.mb-0.ml-3= user.firstName + " " + user.lastName
+      .btn__logout.ml-3
+        a.btn.btn-danger(href="/auth/logout") Logout
+
+    else
       a.login__link(href="/auth/login") login
+
+#navbar__toggle.collapse
+  nav.navbar__container-mobile
+    if user
+      ul.navbar__list-mobile
+        li.navbar__item-mobile
+          a.navbar__link(href="/" class=title=== "feedPhotoPage" ? "active" : "") Feeds
+        li.navbar__item-mobile 
+          a.navbar__link(href="/my-photos" class=title=== "myPhotoPage" ? "active" : "") My Photos
+        li.navbar__item-mobile
+          a.navbar__link(href="/my-albums" class=title=== "myAlbumPage" ? "active" : "") My Albums

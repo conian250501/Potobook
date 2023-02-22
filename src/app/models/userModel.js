@@ -3,6 +3,10 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 const userSchema = new Schema(
   {
+    avatar: {
+      type: String,
+      default: null,
+    },
     firstName: {
       type: String,
     },

@@ -10,3 +10,13 @@
 .navbar__item .navbar__link.active {
   color: var(--primary-color);
 }
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  .navbar__list {
+    display: none;
+  }
+}
+@media screen and (max-width: 767px) {
+  .navbar__list {
+    display: none;
+  }
+}

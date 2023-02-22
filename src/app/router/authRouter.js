@@ -21,3 +21,4 @@ authRouter.post(
   routerHelper.validateBody(schemas.authRegister),
   authController.register
 );
+authRouter.get("/logout", authController.logout);

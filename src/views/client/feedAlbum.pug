@@ -6,21 +6,38 @@ block feedAlbumPage
       a.feedPhoto__page-item(href="/albums" class=title ==="feedAlbumPage" ? "active" : "") Album
     .feedPhoto__body.container.pb-3.px-3
       .row.container
-        .col-lg-6.col-md-6.col-sm-12.p-0.feedPhoto__item
-          .row.p-0.container
-            .col-lg-6.col-md-6.col-sm-12
-             .feedPhoto__body-image-list
-              img.feedPhoto__body-image-item(src="/images/avatar-placeholder-01.jpg", alt="")
-              img.feedPhoto__body-image-item(src="/images/avatar-placeholder-01.jpg", alt="")
-              img.feedPhoto__body-image-item(src="/images/avatar-placeholder-01.jpg", alt="")
-            .col-lg-6.col-md-6.col-sm-12.py-2
-              .feedPhoto__content-top
-                .user__info.d-flex.align-items-center.justify-content-start 
-                  img(src="/images/avatar-placeholder-01.jpg", alt="")
-                  p.user_name.mb-0 Conian Guys
-                h3.feedPhoto__title Nam tempor posuere faucibus
-                p.feedPhoto__description Aliquam dictum nec massa ac consequat. Etiam dignissim tincidunt tellus sed vestibulum. Sed vitae vestibulum purus. Curabitur malesuada libero in nibh pretium, sed malesuada nisi feugiat.
-              .feedPhoto__content-bottom.d-flex.align-items-center.justify-content-between
-                i(class="fa-solid fa-heart header__icon") 
-                  span 123
-                p.feedPhoto__content-date.mb-0 4:56 pm 01/04/2018
+        each album in albums
+          .col-lg-6.col-md-12.col-sm-12.mb-4
+            .row.p-0.container.feedPhoto__item.m-0.p-0
+              .col-lg-6.col-md-6.col-sm-12.p-0
+                .feedPhoto__body-image-list
+                  img.feedPhoto__body-image-item(src="/images/avatar-placeholder-01.jpg", alt="")
+                  img.feedPhoto__body-image-item(src="/images/avatar-placeholder-01.jpg", alt="")
+                  img.feedPhoto__body-image-item(src="/images/avatar-placeholder-01.jpg", alt="")
+              .col-lg-6.col-md-6.col-sm-12.p-3.p-0.feedPhoto__content
+                .feedPhoto__content-top
+                  .user__info.d-flex.align-items-center.justify-content-start 
+                    img(src= album.author.avatar ? album.author.avatar : "/images/avatar-placeholder.jpg" , alt="")
+                    p.user_name.mb-0.ml-2= album.author.firstName + " " + album.author.lastName
+                  h3.feedPhoto__title= album.title
+                  p.feedPhoto__description= album.description
+                .feedPhoto__content-bottom.d-flex.align-items-center.justify-content-between
+                  .like__number.d-flex.align-items-center.justify-content-start
+                    i(class="fa-solid fa-heart header__icon text-primary") 
+                    span.amount__like 123
+                  p.feedPhoto__content-date.mb-0 4:56 pm 01/04/2018
+    nav(aria-label='Page navigation')
+      ul.pagination.justify-content-center.pb-3
+        if page > 1
+          li.page-item
+            a.page-link(href=`/albums/?page=${Number(page) - 1}`) Previous
+        -for(let i = 1; i < totalPage; i++)
+          if Number(page) === i 
+            li.page-item
+              a.page-link.bg-primary.text-white(href=`/albums/?page=${i}`)= i
+          else 
+            li.page-item
+              a.page-link(href=`/albums/?page=${i}`)= i
+        if page < totalPage
+          li.page-item
+            a.page-link(href=`/albums/?page=${Number(page) + 1}`) Next
