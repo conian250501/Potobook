@@ -5,13 +5,23 @@ import { Photo } from "../models/photoModel";
 export const photoController = {
   photoPage: async (req, res, next) => {
     try {
-      const photos = await Photo.find({ author: req.user._id }).populate(
-        "author"
-      );
+      const perPage = req.query.limit || 4;
+      const page = req.query.page || 1;
+      const total = await Photo.find({ author: req.user._id }).count();
+      const totalPage = Math.ceil(total / perPage);
+
+      const photos = await Photo.find({ author: req.user._id })
+        .populate("author")
+        .skip((page - 1) * perPage)
+        .limit(perPage);
+
       return res.render("client/photos", {
         title: "myPhotoPage",
         user: req.user,
         photos,
+        perPage,
+        page,
+        totalPage,
       });
     } catch (error) {
       console.log(error);

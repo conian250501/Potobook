@@ -5,13 +5,24 @@ import { User } from "../models/userModel";
 export const albumController = {
   albumPage: async (req, res, next) => {
     try {
+      const perPage = req.query.limit || 4;
+      const page = req.query.page || 1;
+      const total = await Album.find({ author: req.user._id }).count();
+      const totalPage = Math.ceil(total / perPage);
+
       const albums = await Album.find({ author: req.user._id })
         .populate("author")
-        .populate("photos");
+        .populate("photos")
+        .skip((page - 1) * perPage)
+        .limit(perPage);
+
       return res.render("client/albums", {
         title: "myAlbumPage",
         user: req.user,
         albums,
+        perPage,
+        page,
+        totalPage,
       });
     } catch (error) {
       console.log(error);

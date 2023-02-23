@@ -5,12 +5,24 @@ import { User } from "../models/userModel";
 export const adminController = {
   photosPage: async (req, res, next) => {
     try {
-      const photos = await Photo.find({}).populate(["author", "albums"]);
+      const perPage = req.query.limit || 4;
+      const page = req.query.page || 1;
+      const total = await Photo.find({}).count();
+      const totalPage = Math.ceil(total / perPage);
+
+      const photos = await Photo.find({})
+        .populate(["author", "albums"])
+        .skip((page - 1) * perPage)
+        .limit(perPage);
       const photosReverse = photos.reverse();
+
       return res.render("admin/photos", {
         title: "adminPhotoPage",
         user: req.user,
         photos: photosReverse,
+        page,
+        perPage,
+        totalPage,
       });
     } catch (error) {
       console.log(error);
@@ -176,12 +188,24 @@ export const adminController = {
 
   albumsPage: async (req, res, next) => {
     try {
-      const albums = await Album.find({}).populate(["author", "photos"]);
+      const perPage = req.query.limit || 4;
+      const page = req.query.page || 1;
+      const total = await Album.find({}).count();
+      const totalPage = Math.ceil(total / perPage);
+
+      const albums = await Album.find({})
+        .populate(["author", "photos"])
+        .skip((page - 1) * perPage)
+        .limit(perPage);
       const albumsReverse = albums.reverse();
+
       return res.render("admin/albums", {
         title: "adminAlbumPage",
         user: req.user,
         albums: albumsReverse,
+        page,
+        perPage,
+        totalPage,
       });
     } catch (error) {
       console.log(error);
@@ -297,12 +321,23 @@ export const adminController = {
 
   usersPage: async (req, res, next) => {
     try {
-      const users = await User.find({});
+      const perPage = req.query.limit || 1;
+      const page = req.query.page || 1;
+      const total = await User.find({}).count();
+      const totalPage = Math.ceil(total / perPage);
+
+      const users = await User.find({})
+        .skip((page - 1) * perPage)
+        .limit(perPage);
       const usersReverse = users.reverse();
+
       return res.render("admin/users", {
         title: "adminUserPage",
         user: req.user,
         users: usersReverse,
+        page,
+        perPage,
+        totalPage,
       });
     } catch (error) {
       console.log(error);
@@ -328,6 +363,10 @@ export const adminController = {
       const { id } = req.params;
       const { firstName, lastName, active } = req.body;
       const user = await User.findById(id);
+
+      if (!user) {
+        throw new Error("User not found");
+      }
 
       if (!req.file) {
         await user.updateOne({

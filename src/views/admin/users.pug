@@ -1,35 +1,62 @@
 extends ../layout/adminLayout.pug 
 block users
-  .usersAdmin__container.w-100.bg-white
-    table.table.table-responsive 
-      thead 
-        tr 
-          th.text-nowrap First Name 
-          th.text-nowrap Last Name 
-          th.text-nowrap Email 
-          th.text-nowrap Last Login 
-          th.text-nowrap 
-          th.text-nowrap
-      tbody
-        each user in users 
+  .usersAdmin__container.w-100.bg-white.p-3
+    .table-responsive 
+      table.table
+        thead 
           tr 
-            td=user.firstName
-            td=user.lastName
-            td=user.email
-            td=user.createdAt
-            td 
-              a.btn.btn-success(href="/admin/edit-user/" + user._id) Edit
-            td   
-              button.btn.btn-danger(type="button" data-toggle="modal" data-target="#modal__delete-user" + user._id) Delete
-              .fade.modal(id="modal__delete-user" + user._id)
-                .modal-dialog.modal-dialog-centered
-                  .modal-content
-                    .modal-header
-                      h4.modal-title= user.firstName + " " + user.lastName
-                      button.close(type='button' data-dismiss='modal') &times;
-                    .modal-body
-                      p.modal-body-content.mb-0.h5.text-danger Are sure delete this user? 
-                    .modal-footer
-                      button.btn.border.border-success(type='button' data-dismiss='modal') Close
-                      form(action="/admin/delete-user/" + user._id method="DELETE")
-                       button.btn.btn-danger(type="submit") Delete
+            th.text-nowrap
+             p.mb-0.font-weight-bold First Name 
+            th.text-nowrap
+             p.mb-0.font-weight-bold Last Name 
+            th.text-nowrap
+             p.mb-0.font-weight-bold Email 
+            th.text-nowrap
+             p.mb-0.font-weight-bold Last Login 
+            th.text-nowrap 
+            th.text-nowrap
+        tbody
+          each user in users 
+            tr 
+              td.text-nowrap.align-middle=user.firstName
+              td.text-nowrap.align-middle=user.lastName
+              td.text-nowrap.align-middle=user.email
+              td.text-nowrap.align-middle= new Date(user.createdAt).toISOString()
+              td 
+                a.btn.btn-success(href="/admin/edit-user/" + user._id) Edit
+              td   
+                button.btn.btn-danger(type="button" data-toggle="modal" data-target="#modal__delete-user" + user._id) Delete
+                .fade.modal(id="modal__delete-user" + user._id)
+                  .modal-dialog.modal-dialog-centered
+                    .modal-content
+                      .modal-header
+                        h4.modal-title= user.firstName + " " + user.lastName
+                        button.close(type='button' data-dismiss='modal') &times;
+                      .modal-body
+                        p.modal-body-content.mb-0.h5.text-danger Are sure delete this user? 
+                      .modal-footer
+                        button.btn.border.border-success(type='button' data-dismiss='modal') Close
+                        form(action="/admin/delete-user/" + user._id method="DELETE")
+                          button.btn.btn-danger(type="submit") Delete
+      nav(aria-label='Page navigation').mt-4
+        ul.pagination.justify-content-center.mb-0.flex-wrap
+          if page > 1
+            li.page-item
+              a.page-link(href=`/admin/users/?page=${Number(page) - 1}`) Previous
+          - let i = (Number(page) > 2 ? Number(page) - 1 : 1)
+          if i !== 1
+            li.page-item
+              a.page-link(href=`#`) ...
+          -for( ; i <= (Number(page) + 1) && i <= totalPage; i++)
+            if Number(page) === i 
+              li.page-item
+                a.page-link.bg-primary.text-white(href=`/admin/users/?page=${i}`)= i
+            else 
+              li.page-item
+                a.page-link(href=`/admin/users/?page=${i}`)= i
+            if i === Number(page) + 1 && i < totalPage
+              li.page-item
+                a.page-link(href=`#`) ...
+          if page < totalPage
+            li.page-item
+              a.page-link(href=`/admin/users/?page=${Number(page) + 1}`) Next

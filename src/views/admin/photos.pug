@@ -7,7 +7,7 @@ block photos
           each photo in photos
             .col-lg-3.col-md-6.col-sm-12
               .myPhoto__item
-                img.myPhoto__item-img(src= photo.image, alt="")
+                img.myPhoto__item-img(src= photo.image data-toggle="modal" data-targer="#modal__photo" + photo._id alt="")
                 .myPhoto__item-content
                   p.myPhoto__item-title= photo.title
                   a.myPhoto__item-editIcon.d-block(href="/admin/edit-photo/" + photo._id) 
@@ -15,3 +15,37 @@ block photos
                 if photo.mode === "private"
                   .myPhoto__private.bg-white 
                     i(class="fa-solid fa-lock")
+              .fade.modal(id="modal__photo" + photo._id)
+                .modal-dialog.modal-dialog-centered
+                  .modal-content
+                    .modal-header
+                      h4.modal-title= photo.author.firstName + " " + photo.author.lastName
+                      button.close(type='button' data-dismiss='modal') &times;
+                    .modal-body
+                      .modal-body-image
+                        img(src=photo.image , alt="")
+                      p.modo-body-description.m-0= photo.description
+                    .modal-footer
+                      button.btn.border.border-success(type='button' data-dismiss='modal') Close
+    nav(aria-label='Page navigation').mt-4
+      ul.pagination.justify-content-center.mb-0.flex-wrap
+        if page > 1
+          li.page-item
+            a.page-link(href=`/admin/?page=${Number(page) - 1}`) Previous
+        - let i = (Number(page) > 2 ? Number(page) - 1 : 1)
+        if i !== 1
+          li.page-item
+            a.page-link(href=`#`) ...
+        -for( ; i <= (Number(page) + 1) && i <= totalPage; i++)
+          if Number(page) === i 
+            li.page-item
+              a.page-link.bg-primary.text-white(href=`/admin/?page=${i}`)= i
+          else 
+            li.page-item
+              a.page-link(href=`/admin/?page=${i}`)= i
+          if i === Number(page) + 1 && i < totalPage
+            li.page-item
+              a.page-link(href=`#`) ...
+        if page < totalPage
+          li.page-item
+            a.page-link(href=`/admin/?page=${Number(page) + 1}`) Next
