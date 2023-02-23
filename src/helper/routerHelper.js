@@ -6,11 +6,16 @@ export const schemas = {
     firstName: Joi.string().max(25).required(),
     lastName: Joi.string().max(25).required(),
     password: Joi.string().max(64).required(),
-    confirmPassword: Joi.ref("password"),
+    confirmPassword: Joi.string().max(64).required(),
   }),
   authLogin: Joi.object({
     email: Joi.string().email().required(),
-    password: Joi.string().required(),
+    password: Joi.string().max(64).required().messages({
+      "string.base": `Password should be a type of string`,
+      "string.empty": `Password cannot be an empty field`,
+      "string.max": `Password should have a maxium length of {#limit}`,
+      "any.required": `Password is a required field`,
+    }),
   }),
   editPhoto: Joi.object({
     title: Joi.string().max(140),
@@ -77,7 +82,7 @@ export const schemas = {
   editPassword: Joi.object({
     currentPassword: Joi.string().max(64).required(),
     newPassword: Joi.string().max(64).required(),
-    confirmPassword: Joi.ref("newPassword "),
+    confirmPassword: Joi.string().max(64).required(),
   }),
   editUser: Joi.object({
     firstName: Joi.string().max(25),
@@ -91,7 +96,7 @@ export const schemas = {
 export const routerHelper = {
   validateBody: (schema) => {
     return (req, res, next) => {
-      const result = schema.validate(req.body);
+      const result = schema.validate(req.body, { abortEarly: false });
       if (result.error) {
         req.flash("error_message", result.error.message);
         return res.redirect("back");

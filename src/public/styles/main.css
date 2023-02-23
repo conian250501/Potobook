@@ -29,23 +29,70 @@ body {
   padding: 0 10%;
   margin: 24px 0;
 }
-.error_message {
-  position: fixed;
-  left: 40px;
-  top: 10%;
-  background-color: red;
-  color: white;
-  padding: 8px;
-}
+.error_message,
 .success_message {
   position: fixed;
-  left: 40px;
+  right: 40px;
   top: 10%;
-  background-color: rgb(0, 81, 255);
   color: white;
+  font-weight: 500;
   padding: 8px;
+  animation: RightToLeft 0.24s ease-in;
+  border-radius: 6px;
+}
+.success_message {
+  background-color: rgb(0, 81, 255);
+}
+.error_message {
+  background-color: red;
+}
+.none__message {
+  width: 100%;
+
+  text-align: center;
+  margin-top: 16px;
+}
+.none__message span {
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--primary-color);
+  animation: TextDance 1s linear infinite;
+}
+.none__message a {
+  font-size: 28px;
+  font-weight: 600;
+  margin-left: 12px;
+  text-transform: uppercase;
+  animation: ColorChange 1s linear infinite;
 }
 
+@keyframes RightToLeft {
+  0% {
+    transform: translateX(200px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+@keyframes TextDance {
+  0% {
+    font-style: italic;
+  }
+  100% {
+    font-style: normal;
+  }
+}
+@keyframes ColorChange {
+  0% {
+    color: #333;
+  }
+  50% {
+    color: #333;
+  }
+  100% {
+    color: red;
+  }
+}
 @media screen and (max-width: 767px) {
   .container__main {
     padding: 12px 4%;

@@ -4,20 +4,21 @@ import { Album } from "../models/albumModel";
 export const feedController = {
   feedPhotoPage: async (req, res, next) => {
     try {
-      const perPage = req.query.limit || 2;
+      const perPage = req.query.limit || 12;
       const page = req.query.page || 1;
       const total = await Photo.find({ mode: "public" }).count();
       const totalPage = Math.ceil(total / perPage);
 
       const photos = await Photo.find({ mode: "public" })
         .populate("author")
+        .sort({ createdAt: -1 })
         .skip((page - 1) * perPage)
         .limit(perPage);
-
+      const photosReversed = photos.reverse();
       return res.render("client/feed", {
         title: "feedPhotoPage",
         user: req.user,
-        photos,
+        photos: photosReversed,
         perPage,
         page,
         totalPage,
@@ -29,7 +30,7 @@ export const feedController = {
   },
   albumPhotoPage: async (req, res, next) => {
     try {
-      const perPage = req.query.limit || 2;
+      const perPage = req.query.limit || 12;
       const page = req.query.page || 1;
       const total = await Album.find({ mode: "public" }).count();
       const totalPage = Math.ceil(total / perPage);
@@ -39,11 +40,11 @@ export const feedController = {
         .populate("photos")
         .skip((page - 1) * perPage)
         .limit(perPage);
-      console.log(albums);
+      const albumsReversed = albums.reverse();
       return res.render("client/feedAlbum", {
         title: "feedAlbumPage",
         user: req.user,
-        albums,
+        albums: albumsReversed,
         perPage,
         page,
         totalPage,

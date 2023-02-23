@@ -18,6 +18,11 @@ export const authController = {
         return res.redirect("back");
       }
 
+      if (password !== confirmPassword) {
+        req.flash("error_message", "Password dont match");
+        return res.redirect("back");
+      }
+
       const passwordHashed = await passwordHelper.hashPassword(password, 10);
       const newUser = new User({ ...req.body, password: passwordHashed });
       await newUser.save();

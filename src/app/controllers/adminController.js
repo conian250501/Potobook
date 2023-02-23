@@ -321,12 +321,12 @@ export const adminController = {
 
   usersPage: async (req, res, next) => {
     try {
-      const perPage = req.query.limit || 1;
+      const perPage = req.query.limit || 10;
       const page = req.query.page || 1;
       const total = await User.find({}).count();
       const totalPage = Math.ceil(total / perPage);
 
-      const users = await User.find({})
+      const users = await User.find({ isAdmin: false })
         .skip((page - 1) * perPage)
         .limit(perPage);
       const usersReverse = users.reverse();
@@ -393,5 +393,26 @@ export const adminController = {
       next(error);
     }
   },
-  deleteUser: async (req, res, next) => {},
+  deleteUser: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const user = await User.findByIdAndDelete(id);
+      if (!user) {
+        throw new Error("User not found");
+      }
+
+      user.albums.map(async (album) => {
+        await Album.findByIdAndDelete(album._id);
+      });
+
+      user.photos.map(async (photo) => {
+        await Photo.findByIdAndDelete(photo._id);
+      });
+
+      req.flash("success__messages", "Delete User successfully");
+      return res.redirect("/admin/users");
+    } catch (error) {
+      next(error);
+    }
+  },
 };

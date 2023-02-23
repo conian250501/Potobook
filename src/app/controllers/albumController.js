@@ -5,7 +5,7 @@ import { User } from "../models/userModel";
 export const albumController = {
   albumPage: async (req, res, next) => {
     try {
-      const perPage = req.query.limit || 4;
+      const perPage = req.query.limit || 12;
       const page = req.query.page || 1;
       const total = await Album.find({ author: req.user._id }).count();
       const totalPage = Math.ceil(total / perPage);

@@ -6,13 +6,13 @@ block users
         thead 
           tr 
             th.text-nowrap
-             p.mb-0.font-weight-bold First Name 
+              p.mb-0.font-weight-bold First Name 
             th.text-nowrap
-             p.mb-0.font-weight-bold Last Name 
+              p.mb-0.font-weight-bold Last Name 
             th.text-nowrap
-             p.mb-0.font-weight-bold Email 
+              p.mb-0.font-weight-bold Email 
             th.text-nowrap
-             p.mb-0.font-weight-bold Last Login 
+              p.mb-0.font-weight-bold Last Login 
             th.text-nowrap 
             th.text-nowrap
         tbody
@@ -36,8 +36,12 @@ block users
                         p.modal-body-content.mb-0.h5.text-danger Are sure delete this user? 
                       .modal-footer
                         button.btn.border.border-success(type='button' data-dismiss='modal') Close
-                        form(action="/admin/delete-user/" + user._id method="DELETE")
+                        form(action="/admin/delete-user/" + user._id method="GET")
                           button.btn.btn-danger(type="submit") Delete
+      if success_message.length > 0
+        p.success_message= success_message
+      if error_message.length > 0
+        p.error_message= error_message
       nav(aria-label='Page navigation').mt-4
         ul.pagination.justify-content-center.mb-0.flex-wrap
           if page > 1

@@ -5,7 +5,7 @@ import { Photo } from "../models/photoModel";
 export const photoController = {
   photoPage: async (req, res, next) => {
     try {
-      const perPage = req.query.limit || 4;
+      const perPage = req.query.limit || 12;
       const page = req.query.page || 1;
       const total = await Photo.find({ author: req.user._id }).count();
       const totalPage = Math.ceil(total / perPage);
@@ -14,11 +14,11 @@ export const photoController = {
         .populate("author")
         .skip((page - 1) * perPage)
         .limit(perPage);
-
+      const photosReversed = photos.reverse();
       return res.render("client/photos", {
         title: "myPhotoPage",
         user: req.user,
-        photos,
+        photos: photosReversed,
         perPage,
         page,
         totalPage,
@@ -250,6 +250,7 @@ export const photoController = {
         { _id: photo.albums },
         { $pull: { photos: photo._id } }
       );
+
       req.flash("success_message", "Delete photo successfully");
       return res.redirect("/my-photos");
     } catch (error) {

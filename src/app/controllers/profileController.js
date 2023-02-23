@@ -64,7 +64,12 @@ export const profileController = {
   editPassword: async (req, res, next) => {
     try {
       const { _id } = req.user;
-      const { currentPassword, newPassword } = req.body;
+      const { currentPassword, newPassword, confirmPassword } = req.body;
+
+      if (newPassword !== confirmPassword) {
+        req.flash("error_message", "New password dont match");
+        return res.redirect("back");
+      }
       const isValidPassword = await passwordHelper.comparePassword(
         _id,
         currentPassword

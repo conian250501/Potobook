@@ -6,38 +6,43 @@ block albumPage
     .myAlbum__body 
       .container
         .row.myAlbum__list
-          each album in albums
-            .col-lg-3.col-md-6.col-sm-12
-              .myAlbum__item
-                .myAlbum__item-img-list
-                  each photo in album.photos
-                    img.myAlbum__item-img-item(src= photo.image, alt="")
-                .myAlbum__item-content
-                  p.myAlbum__item-title= album.title
-                  a.myAlbum__item-editIcon.d-block(href="my-albums/edit-album/" + album._id) 
-                    i(class="fa-solid fa-pen-to-square text-white")
-                if album.mode === "private"
-                  .myAlbum__private.bg-white 
-                    i(class="fa-solid fa-lock")
-    nav(aria-label='Page navigation').mt-4
-      ul.pagination.justify-content-center.mb-0.flex-wrap
-        if page > 1
-          li.page-item
-            a.page-link(href=`/my-albums/?page=${Number(page) - 1}`) Previous
-        - let i = (Number(page) > 2 ? Number(page) - 1 : 1)
-        if i !== 1
-          li.page-item
-            a.page-link(href=`#`) ...
-        -for( ; i <= (Number(page) + 1) && i <= totalPage; i++)
-          if Number(page) === i 
-            li.page-item
-              a.page-link.bg-primary.text-white(href=`/my-albums/?page=${i}`)= i
+          if albums.length > 0
+            each album in albums
+              .col-lg-3.col-md-6.col-sm-12
+                .myAlbum__item
+                  .myAlbum__item-img-list
+                    each photo in album.photos
+                      img.myAlbum__item-img-item(src= photo.image, alt="")
+                  .myAlbum__item-content
+                    p.myAlbum__item-title= album.title
+                    a.myAlbum__item-editIcon.d-block(href="my-albums/edit-album/" + album._id) 
+                      i(class="fa-solid fa-pen-to-square text-white")
+                  if album.mode === "private"
+                    .myAlbum__private.bg-white 
+                      i(class="fa-solid fa-lock")
+            nav(aria-label='Page navigation').mt-4
+              ul.pagination.justify-content-center.mb-0.flex-wrap
+                if page > 1
+                  li.page-item
+                    a.page-link(href=`/my-albums/?page=${Number(page) - 1}`) Previous
+                - let i = (Number(page) > 2 ? Number(page) - 1 : 1)
+                if i !== 1
+                  li.page-item
+                    a.page-link(href=`#`) ...
+                -for( ; i <= (Number(page) + 1) && i <= totalPage; i++)
+                  if Number(page) === i 
+                    li.page-item
+                      a.page-link.bg-primary.text-white(href=`/my-albums/?page=${i}`)= i
+                  else 
+                    li.page-item
+                      a.page-link(href=`/my-albums/?page=${i}`)= i
+                  if i === Number(page) + 1 && i < totalPage
+                    li.page-item
+                      a.page-link(href=`#`) ...
+                if page < totalPage
+                  li.page-item
+                    a.page-link(href=`/my-albums/?page=${Number(page) + 1}`) Next
           else 
-            li.page-item
-              a.page-link(href=`/my-albums/?page=${i}`)= i
-          if i === Number(page) + 1 && i < totalPage
-            li.page-item
-              a.page-link(href=`#`) ...
-        if page < totalPage
-          li.page-item
-            a.page-link(href=`/my-albums/?page=${Number(page) + 1}`) Next
+            .none__message
+              span You dont have any albums!! 
+              a(href="/my-album/new-album") Create now
