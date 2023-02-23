@@ -20,29 +20,29 @@ block albumPage
                   if album.mode === "private"
                     .myAlbum__private.bg-white 
                       i(class="fa-solid fa-lock")
-            nav(aria-label='Page navigation').mt-4
-              ul.pagination.justify-content-center.mb-0.flex-wrap
-                if page > 1
-                  li.page-item
-                    a.page-link(href=`/my-albums/?page=${Number(page) - 1}`) Previous
-                - let i = (Number(page) > 2 ? Number(page) - 1 : 1)
-                if i !== 1
-                  li.page-item
-                    a.page-link(href=`#`) ...
-                -for( ; i <= (Number(page) + 1) && i <= totalPage; i++)
-                  if Number(page) === i 
-                    li.page-item
-                      a.page-link.bg-primary.text-white(href=`/my-albums/?page=${i}`)= i
-                  else 
-                    li.page-item
-                      a.page-link(href=`/my-albums/?page=${i}`)= i
-                  if i === Number(page) + 1 && i < totalPage
-                    li.page-item
-                      a.page-link(href=`#`) ...
-                if page < totalPage
-                  li.page-item
-                    a.page-link(href=`/my-albums/?page=${Number(page) + 1}`) Next
           else 
             .none__message
               span You dont have any albums!! 
               a(href="/my-album/new-album") Create now
+      nav(aria-label='Page navigation').mt-4
+        ul.pagination.justify-content-center.mb-0.flex-wrap
+          if page > 1
+            li.page-item
+              a.page-link(href=`/my-albums/?page=${Number(page) - 1}`) Previous
+          - let i = (Number(page) > 2 ? Number(page) - 1 : 1)
+          if i !== 1
+            li.page-item
+              a.page-link(href=`#`) ...
+          -for( ; i <= (Number(page) + 1) && i <= totalPage; i++)
+            if Number(page) === i 
+              li.page-item
+                a.page-link.bg-primary.text-white(href=`/my-albums/?page=${i}`)= i
+            else 
+              li.page-item
+                a.page-link(href=`/my-albums/?page=${i}`)= i
+            if i === Number(page) + 1 && i < totalPage
+              li.page-item
+                a.page-link(href=`#`) ...
+          if page < totalPage
+            li.page-item
+              a.page-link(href=`/my-albums/?page=${Number(page) + 1}`) Next

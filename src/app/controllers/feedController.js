@@ -8,10 +8,12 @@ export const feedController = {
       const page = req.query.page || 1;
       const total = await Photo.find({ mode: "public" }).count();
       const totalPage = Math.ceil(total / perPage);
+      const photo = await Photo.findById(undefined);
+
+      console.log(photo);
 
       const photos = await Photo.find({ mode: "public" })
         .populate("author")
-        .sort({ createdAt: -1 })
         .skip((page - 1) * perPage)
         .limit(perPage);
       const photosReversed = photos.reverse();
