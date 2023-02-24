@@ -40,7 +40,7 @@ albumRouter.get(
   albumController.deleteAlbum
 );
 albumRouter.get(
-  "/delete-photo/:id",
+  "/:id/delete-photo/:idPhoto",
   authMiddleware.ensureUserIsAuthenticated,
   albumController.deletePhotoOfAlbum
 );

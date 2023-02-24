@@ -10,6 +10,7 @@ import session from "express-session";
 import passport from "passport";
 import flash from "connect-flash";
 import { passportLocal } from "./middleware/passport";
+import mongoose from "mongoose";
 
 dotenv.config();
 

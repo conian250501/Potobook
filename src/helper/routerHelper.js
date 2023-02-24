@@ -91,6 +91,10 @@ export const schemas = {
     images: Joi.array(),
     active: Joi.string().empty(""),
   }),
+  forgotPassword: Joi.object({
+    newPassword: Joi.string().max(64).required(),
+    confirmPassword: Joi.string().max(64).required(),
+  }),
 };
 
 export const routerHelper = {

@@ -4,6 +4,75 @@ import { jwtHelper } from "../../helper/jwtHelper";
 import { confirmEmail } from "../../utils/confirmEmail";
 
 export const authController = {
+  sendMailPage: async (req, res, next) => {
+    try {
+      return res.render("client/sendEmail");
+    } catch (error) {
+      next(error);
+    }
+  },
+  sendMail: async (req, res, next) => {
+    try {
+      const { email } = req.body;
+      const user = await User.findOne({ email: email });
+      if (!user) {
+        req.flash("error_message", "User not found");
+        return res.redirect("back");
+      }
+      // CONFIRM EMAIL
+      const subject = "Confirm your account here";
+      const html = `
+       <h4>Thanks you for register <3</h4>
+       <p>Please go to link below to reset your passwor account</p>
+       <a href="${process.env.BASE_URL}/auth/forgot-password/${user.token}">Reset your password NOW</a>
+       `;
+      const isSendMail = await confirmEmail(email, subject, html);
+
+      if (isSendMail) {
+        req.flash("success_message", "Go to your email to reset your password");
+        return res.redirect("back");
+      } else {
+        req.flash("error_message", "Send email failed");
+        return res.redirect("back");
+      }
+    } catch (error) {
+      next(error);
+    }
+  },
+  forgotPassPage: async (req, res, next) => {
+    try {
+      const { token } = req.params;
+      const user = await User.findOne({ token: token });
+      if (!user) {
+        throw new Error("User not found");
+      }
+      return res.render("client/forgotPassword", { userReset: user });
+    } catch (error) {
+      next(error);
+    }
+  },
+  forgotPassword: async (req, res, next) => {
+    try {
+      const { newPassword, confirmPassword } = req.body;
+      const user = await User.findOne({ token: req.params.token });
+      if (newPassword !== confirmPassword) {
+        req.flash("error_message", "New password dont match");
+        return res.redirect("back");
+      }
+
+      const hashedPassword = await passwordHelper.hashPassword(newPassword, 10);
+
+      await user.updateOne({
+        password: hashedPassword,
+      });
+
+      await user.save();
+      req.flash("success_message", "Reset password successfully");
+      return res.redirect("back");
+    } catch (error) {
+      next(error);
+    }
+  },
   verifyEmail: async (req, res, next) => {
     try {
       const { token } = req.params;

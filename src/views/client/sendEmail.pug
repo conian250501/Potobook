@@ -1,18 +1,17 @@
 extends ../layout/defaultLayout.pug
 
-block loginPage 
-  .container.mt-5
+block sendEmail 
+ .container.mt-5
     .row.justify-content-center
       .col-sm-12.col-md-5.col-lg-4.col-xl-4
-        h1.text-center.login-title Potobook Login
+        h1.text-center.login-title Reset Password
         .account-wall
-          img.profile-img(src='https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120' alt='')
-          form.form-signin(action="/auth/login" method="POST")
+          form.form-signin(action="/auth/send-email" method="POST")
             input.form-control.mb-2(type='text' placeholder='Email' name="email" required='' autofocus='')
-            input.form-control(type='password' placeholder='Password' name="password" required='')
+
             button.btn.btn-lg.btn-primary.btn-block(type='submit')
-              | Sign in                  
-            a.pull-right.need-help.text-center.d-block(href='/auth/send-email')  Forgot password
+              | Reset              
+            a.pull-right.need-help.text-center.d-block.mb-0(href='/auth/login') Back to login  
             span.clearfix
         a.text-center.new-account(href='/auth/register') Create an account 
 

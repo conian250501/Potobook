@@ -25,3 +25,12 @@ authRouter.post(
 );
 authRouter.get("/logout", authController.logout);
 authRouter.get("/verify-email/:token", authController.verifyEmail);
+
+authRouter.get("/send-email", authController.sendMailPage);
+authRouter.post("/send-email", authController.sendMail);
+authRouter.get("/forgot-password/:token", authController.forgotPassPage);
+authRouter.post(
+  "/forgot-password/:token",
+  routerHelper.validateBody(schemas.forgotPassword),
+  authController.forgotPassword
+);
