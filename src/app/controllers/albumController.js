@@ -47,7 +47,7 @@ export const albumController = {
 
       const imageList = req.files;
       imageList.map(async (image) => {
-        const imageUrl = `http://${req.host}:${process.env.PORT}/uploads/${image.filename}`;
+        const imageUrl = `http://${req.hostname}:${process.env.PORT}/uploads/${image.filename}`;
         const newPhoto = new Photo({
           title: image.filename,
           image: imageUrl,
@@ -102,7 +102,7 @@ export const albumController = {
 
       const images = req.files;
       images.map(async (image) => {
-        const imageUrl = `http://${req.host}:${process.env.PORT}/uploads/${image.filename}`;
+        const imageUrl = `http://${req.hostname}:${process.env.PORT}/uploads/${image.filename}`;
         const newPhoto = new Photo({
           title: image.filename,
           image: imageUrl,

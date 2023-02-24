@@ -1,6 +1,7 @@
 import express from "express";
 import passport from "passport";
 import { routerHelper, schemas } from "../../helper/routerHelper";
+import { authMiddleware } from "../../middleware/authMiddleware";
 import { authController } from "../controllers/authController";
 
 export const authRouter = express.Router();
@@ -9,6 +10,7 @@ authRouter.get("/login", authController.loginPage);
 authRouter.post(
   "/login",
   routerHelper.validateBody(schemas.authLogin),
+  authMiddleware.checkVerification,
   passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/auth/login",
@@ -22,3 +24,4 @@ authRouter.post(
   authController.register
 );
 authRouter.get("/logout", authController.logout);
+authRouter.get("/verify-email/:token", authController.verifyEmail);

@@ -12,6 +12,15 @@ export const passportLocal = () => {
       },
       async (req, email, password, done) => {
         const user = await User.findOne({ email });
+        if (user?.active === false) {
+          req.flash(
+            "error_message",
+            "User has been blocked for sensitive reasons"
+          );
+          return done(null, false, {
+            message: "User has been blocked for sensitive reasons",
+          });
+        }
         if (!user) {
           req.flash("error_message", "User dont exist");
           return done(null, false, { message: "User dont exist" });

@@ -1,3 +1,5 @@
+import { User } from "../app/models/userModel";
+
 export const authMiddleware = {
   ensureUserIsAuthenticated: (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -12,5 +14,29 @@ export const authMiddleware = {
       return next();
     }
     res.redirect("/");
+  },
+  checkVerification: async (req, res, next) => {
+    try {
+      const { email } = req.body;
+      const user = await User.findOne({ email: email });
+      const isValidEmail = email === user?.email;
+
+      if (!isValidEmail) {
+        req.flash("error_message", "Email invalid");
+        return res.redirect("back");
+      }
+
+      if (user?.verify) {
+        next();
+      } else {
+        req.flash(
+          "error_message",
+          "Please check your email to verify your account"
+        );
+        return res.redirect("back");
+      }
+    } catch (error) {
+      next(error);
+    }
   },
 };

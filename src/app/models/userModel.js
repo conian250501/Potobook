@@ -24,9 +24,17 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    active: {
+    token: {
+      type: String,
+      default: null,
+    },
+    verify: {
       type: Boolean,
       default: false,
+    },
+    active: {
+      type: Boolean,
+      default: true,
     },
     albums: [{ type: Schema.Types.ObjectId, ref: "Album", default: [] }],
     photos: [{ type: Schema.Types.ObjectId, ref: "Photo", default: [] }],
