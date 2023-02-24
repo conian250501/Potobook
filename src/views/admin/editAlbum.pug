@@ -36,7 +36,7 @@ block editAlbum
                             p.modal-body-content.mb-0.h5.text-danger Are sure delete this Photo? 
                           .modal-footer
                             button.btn.border.border-success(type='button' data-dismiss='modal') Close
-                            a.btn.btn-danger(href="/admin/delete-photoOfAlbum/" + photo._id) Delete
+                            a.btn.btn-danger(href=`/admin/${album._id}/delete-photoOfAlbum/${photo._id}` ) Delete
               label.newAlbum__form-label-image.mt-3(for="newAlbum__form-input-image")
                 i(class="fa-solid fa-plus plus__icon" )  
               input#newAlbum__form-input-image.w-100(type="file", multiple hidden name="images")

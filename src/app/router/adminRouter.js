@@ -54,7 +54,7 @@ adminRouter.get(
   adminController.deleteAlbum
 );
 adminRouter.get(
-  "/delete-PhotoOfAlbum/:id",
+  "/:id/delete-PhotoOfAlbum/:idPhoto",
   authMiddleware.ensureUserIsAuthenticated,
   adminController.deletePhotoOfAlbum
 );

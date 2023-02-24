@@ -50,7 +50,7 @@ export const photoController = {
         throw new Error("User not found");
       }
 
-      const imageUrl = `http://${req.host}:${process.env.PORT}/uploads/${req.file.filename}`;
+      const imageUrl = `http://${req.hostname}:${process.env.PORT}/uploads/${req.file.filename}`;
 
       const newPhoto = new Photo({
         ...req.body,

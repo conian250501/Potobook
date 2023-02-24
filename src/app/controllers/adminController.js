@@ -296,20 +296,34 @@ export const adminController = {
   },
   deletePhotoOfAlbum: async (req, res, next) => {
     try {
-      const { id } = req.params;
-      const photo = await Photo.findByIdAndDelete(id);
+      const { id, idPhoto } = req.params;
+
+      const photo = await Photo.findById({ _id: idPhoto });
+
       if (!photo) {
         throw new Error("Delete photo of album failed");
       }
+      const album = await Album.findById(id);
+      if (!album) {
+        throw new Error("Album not found");
+      }
 
-      await User.updateMany(
-        { _id: photo.author },
-        { $pull: { photos: photo._id } }
+      const photosUpdated = album.photos.filter(
+        (item) => item._id.toString() !== photo._id.toString()
       );
-      await Photo.updateMany(
-        { _id: photo.albums },
-        { $pull: { photos: photo._id } }
+      const albumOfPhotosUpdated = photo.albums.filter(
+        (item) => item._id.toString() !== album._id.toString()
       );
+
+      await album.updateOne({
+        photos: photosUpdated,
+      });
+      await photo.updateOne({
+        albums: albumOfPhotosUpdated,
+      });
+
+      await photo.save();
+      await album.save();
 
       req.flash("success_message", "Delete photo of album successfully");
       return res.redirect("back");
