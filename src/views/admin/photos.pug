@@ -7,7 +7,7 @@ block photos
           each photo in photos
             .col-lg-3.col-md-6.col-sm-12
               .myPhoto__item
-                img.myPhoto__item-img(src= photo.image data-toggle="modal" data-targer="#modal__photo" + photo._id alt="")
+                img.myPhoto__item-img(src= photo.image data-toggle="modal" data-target="#modal__photo" + photo._id alt="")
                 .myPhoto__item-content
                   p.myPhoto__item-title= photo.title
                   a.myPhoto__item-editIcon.d-block(href="/admin/edit-photo/" + photo._id) 

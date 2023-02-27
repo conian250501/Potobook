@@ -1,5 +1,6 @@
 import { Photo } from "../models/photoModel";
 import { Album } from "../models/albumModel";
+import { Like } from "../models/likeModel";
 
 export const feedController = {
   feedPhotoPage: async (req, res, next) => {
@@ -8,15 +9,15 @@ export const feedController = {
       const page = req.query.page || 1;
       const total = await Photo.find({ mode: "public" }).count();
       const totalPage = Math.ceil(total / perPage);
-      const photo = await Photo.findById(undefined);
-
-      console.log(photo);
 
       const photos = await Photo.find({ mode: "public" })
         .populate("author")
+        .populate({ path: "likes", populate: { path: "author" } })
         .skip((page - 1) * perPage)
         .limit(perPage);
+
       const photosReversed = photos.reverse();
+
       return res.render("client/feed", {
         title: "feedPhotoPage",
         user: req.user,
@@ -40,6 +41,7 @@ export const feedController = {
       const albums = await Album.find({ mode: "public" })
         .populate("author")
         .populate("photos")
+        .populate({ path: "likes", populate: { path: "author" } })
         .skip((page - 1) * perPage)
         .limit(perPage);
       const albumsReversed = albums.reverse();

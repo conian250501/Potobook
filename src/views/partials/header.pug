@@ -5,7 +5,9 @@ header.header
     .logo 
       a.logo__content(href="/") Potobook
     .input__search
-      input(type="text" placeholder="Search photo / album")
+     form(action="/search")
+      input(type="text" placeholder="Search photo / album" name="title")
+      button.btn-search(type="submit")
 
   .header__right.d-flex.align-items-center.justify-content-start 
     if user

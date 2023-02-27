@@ -20,30 +20,39 @@ block feedPage
                       p.user_name.mb-0.ml-2= photo.author.firstName + " " + photo.author.lastName
                     h3.feedPhoto__title= photo.title
                     p.feedPhoto__description= photo.description
-                  .feedPhoto__content-bottom.d-flex.align-items-center.justify-content-between
-                    .like__number.d-flex.align-items-center.justify-content-start
-                      i(class="fa-solid fa-heart header__icon text-primary") 
-                      span.amount__like 123
-                    p.feedPhoto__content-date.mb-0 4:56 pm 01/04/2018
+                  if user 
+                    .feedPhoto__content-bottom.d-flex.align-items-center.justify-content-between.w-100
+                      .like__number.d-flex.align-items-center.justify-content-between.w-100
+                        .like__number-right.d-flex.align-items-center.justify-content-start
+                          if photo.likes.find(item => item.author._id.toString() === user._id.toString())
+                            form(action=`/my-photos/${photo._id}/unlike/` method="POST")
+                              button.btn-like(type="submit" )
+                                i(class="fa-solid fa-heart header__icon-liked  cursor-pointer") 
+                          else 
+                            form(action=`/my-photos/${photo._id}/like/` method="POST")
+                              button.btn-like(type="submit" )
+                                i(class="fa-solid fa-heart header__icon   cursor-pointer") 
+                          span.amount__like= photo.likes.length
+                        p.feedPhoto__content-date.mb-0.text-nowrap 4:56 pm 01/04/2018
       nav(aria-label='Page navigation')
-      ul.pagination.justify-content-center.pb-3.flex-wrap
-        if page > 1
-          li.page-item
-            a.page-link(href=`/?page=${Number(page) - 1}`) Previous
-        - let i = (Number(page) > 2 ? Number(page) - 1 : 1)
-        if i !== 1
-          li.page-item
-            a.page-link(href=`#`) ...
-        -for( ; i <= (Number(page) + 1) && i <= totalPage; i++)
-          if Number(page) === i 
+        ul.pagination.justify-content-center.pb-3.flex-wrap
+          if page > 1
             li.page-item
-              a.page-link.bg-primary.text-white(href=`/?page=${i}`)= i
-          else 
-            li.page-item
-              a.page-link(href=`/?page=${i}`)= i
-          if i === Number(page) + 1 && i < totalPage
+              a.page-link(href=`/?page=${Number(page) - 1}`) Previous
+          - let i = (Number(page) > 2 ? Number(page) - 1 : 1)
+          if i !== 1
             li.page-item
               a.page-link(href=`#`) ...
-        if page < totalPage
-          li.page-item
-            a.page-link(href=`/?page=${Number(page) + 1}`) Next
+          -for( ; i <= (Number(page) + 1) && i <= totalPage; i++)
+            if Number(page) === i 
+              li.page-item
+                a.page-link.bg-primary.text-white(href=`/?page=${i}`)= i
+            else 
+              li.page-item
+                a.page-link(href=`/?page=${i}`)= i
+            if i === Number(page) + 1 && i < totalPage
+              li.page-item
+                a.page-link(href=`#`) ...
+          if page < totalPage
+            li.page-item
+              a.page-link(href=`/?page=${Number(page) + 1}`) Next

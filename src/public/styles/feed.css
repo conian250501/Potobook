@@ -75,16 +75,31 @@
   font-size: 16px;
   font-weight: 400;
 }
-.like__number .header__icon {
-  font-size: 20px;
-}
+
 .amount__like {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
+  color: #333;
   margin-left: 6px;
 }
 .feedPhoto__content-date {
   font-size: 14px;
   font-weight: 400;
   color: #888;
+}
+.btn-like {
+  background-color: transparent !important;
+  border: none;
+}
+.btn-like:focus {
+  border: 0px solid transparent;
+  outline: none !important;
+}
+
+.btn-like .header__icon-liked {
+  font-size: 20px;
+  color: red;
+}
+.header__icon {
+  color: black;
 }

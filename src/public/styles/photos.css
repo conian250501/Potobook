@@ -56,3 +56,30 @@
 .modo-body-description {
   white-space: pre-wrap;
 }
+.like__wrapper {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+.like__wrapper .like__number {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.like__user-name {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+.like__user-more {
+  font-size: 14px;
+  font-weight: 400;
+  font-style: italic;
+}

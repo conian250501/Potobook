@@ -7,7 +7,7 @@ block albums
           each album in albums
             .col-lg-3.col-md-6.col-sm-12
               .myAlbum__item
-                .myAlbum__item-img-list
+                .myAlbum__item-img-list(data-toggle="modal" data-target="#modal__album" + album._id)
                   each photo in album.photos
                     img.myAlbum__item-img-item(src= photo.image, alt="")
                 .myAlbum__item-content
@@ -17,6 +17,37 @@ block albums
                 if album.mode === "private"
                   .myAlbum__private.bg-white 
                     i(class="fa-solid fa-lock")
+                .fade.modal(id="modal__album" + album._id)
+                  .modal-dialog.modal-dialog-centered
+                    .modal-content
+                      .modal-header
+                        h4.modal-title= album.author.firstName + " " + album.author.lastName
+                        button.close(type='button' data-dismiss='modal') &times;
+                      .modal-body
+                        .modal-body-image(id="myCarousel" class="carousel slide" data-ride="carousel")
+                          .carousel-inner
+                            each photo in album.photos
+                              .item.active
+                                img(src= photo.image, alt='Los Angeles')
+                          a.left.carousel-control(href='#myCarousel' data-slide='prev')
+                            span.glyphicon.glyphicon-chevron-left
+                            span.sr-only Previous
+                          a.right.carousel-control(href='#myCarousel' data-slide='next')
+                            span.glyphicon.glyphicon-chevron-right
+                            span.sr-only Next
+
+                        p.modo-body-description.m-0= album.description
+                        .like__wrapper.mt-3  
+                          p.like__number.mb-0.mr-3= album.likes.length
+                          .like__user
+                            if album.likes.length <= 1
+                              each userLiked,i in album.likes
+                                span.like__user-name= userLiked.nameAuthor
+                            else
+                              span.like__user-name= album.likes[0].nameAuthor
+                              span.like__user-more= ` And ${album.likes.length - 1} more liked` 
+                      .modal-footer
+                        button.btn.border.border-success(type='button' data-dismiss='modal') Close
     nav(aria-label='Page navigation').mt-4
       ul.pagination.justify-content-center.mb-0.flex-wrap
         if page > 1

@@ -5,8 +5,10 @@ import { photoRouter } from "./photoRouter";
 import { albumRouter } from "./albumRouter";
 import { profileRouter } from "./profileRouter";
 import { adminRouter } from "./adminRouter";
+import { searchRouter } from "./searchRouter";
 
 export const rootRouter = (app) => {
+  app.use("/search", searchRouter);
   app.use("/admin", adminRouter);
   app.use("/my-profile", profileRouter);
   app.use("/my-photos", photoRouter);

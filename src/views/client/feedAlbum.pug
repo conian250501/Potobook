@@ -21,10 +21,20 @@ block feedAlbumPage
                   h3.feedPhoto__title= album.title
                   p.feedPhoto__description= album.description
                 .feedPhoto__content-bottom.d-flex.align-items-center.justify-content-between.w-100
-                  .like__number.d-flex.align-items-center.justify-content-start
-                    i(class="fa-solid fa-heart header__icon text-primary") 
-                    span.amount__like 123
-                  p.feedPhoto__content-date.mb-0.text-nowrap 4:56 pm 01/04/2018
+                  if user 
+                    .like__number.d-flex.align-items-center.justify-content-between.w-100
+                      .like__number-right.d-flex.align-items-center.justify-content-start.w-100
+                        if album.likes.find(item => item.author._id.toString() === user._id.toString())
+                          form(action=`/my-albums/${album._id}/unlike/` method="POST")
+                            button.btn-like(type="submit" )
+                              i(class="fa-solid fa-heart header__icon-liked ") 
+                        else 
+                          form(action=`/my-albums/${album._id}/like/` method="POST")
+                            button.btn-like(type="submit" )
+                              i(class="fa-solid fa-heart header__icon ") 
+                        span.amount__like= album.likes.length
+
+                      p.feedPhoto__content-date.mb-0.text-nowrap 4:56 pm 01/04/2018
     nav(aria-label='Page navigation')
       ul.pagination.justify-content-center.pb-3.flex-wrap
         if page > 1

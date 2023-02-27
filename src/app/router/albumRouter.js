@@ -44,3 +44,13 @@ albumRouter.get(
   authMiddleware.ensureUserIsAuthenticated,
   albumController.deletePhotoOfAlbum
 );
+albumRouter.post(
+  "/:id/like/",
+  authMiddleware.ensureUserIsAuthenticated,
+  albumController.likeAlbum
+);
+albumRouter.post(
+  "/:id/unlike/",
+  authMiddleware.ensureUserIsAuthenticated,
+  albumController.dislikeAlbum
+);

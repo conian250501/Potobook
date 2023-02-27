@@ -5,9 +5,11 @@ const albumSchema = new Schema(
   {
     title: {
       type: String,
+      default: null,
     },
     description: {
       type: String,
+      default: null,
     },
     mode: {
       type: String,
@@ -23,6 +25,13 @@ const albumSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
+    likes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Like",
+        default: [],
+      },
+    ],
   },
   { timestamps: true }
 );

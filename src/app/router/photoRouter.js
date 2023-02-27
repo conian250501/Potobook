@@ -40,3 +40,16 @@ photoRouter.get(
   authMiddleware.ensureUserIsAuthenticated,
   photoController.deletePhoto
 );
+
+photoRouter.post(
+  "/:id/like",
+  authMiddleware.ensureUserIsAuthenticated,
+
+  photoController.likePhoto
+);
+photoRouter.post(
+  "/:id/unlike",
+  authMiddleware.ensureUserIsAuthenticated,
+
+  photoController.dislikePhoto
+);

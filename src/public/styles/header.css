@@ -75,6 +75,13 @@
   bottom: 3%;
   z-index: 1000;
 }
+.btn-search {
+  background-color: transparent;
+  border: none;
+}
+.btn-search:focus {
+  outline: none;
+}
 
 @media screen and (min-width: 1024px) and (max-width: 1439px) {
   .input__search input {

@@ -1,6 +1,7 @@
 import { Album } from "../models/albumModel";
 import { User } from "../models/userModel";
 import { Photo } from "../models/photoModel";
+import { Like } from "../models/likeModel";
 
 export const photoController = {
   photoPage: async (req, res, next) => {
@@ -12,9 +13,11 @@ export const photoController = {
 
       const photos = await Photo.find({ author: req.user._id })
         .populate("author")
+        .populate("likes")
         .skip((page - 1) * perPage)
         .limit(perPage);
       const photosReversed = photos.reverse();
+
       return res.render("client/photos", {
         title: "myPhotoPage",
         user: req.user,
@@ -242,6 +245,10 @@ export const photoController = {
         return res.redirect("back");
       }
 
+      photo.likes.map(async (like) => {
+        await Like.findByIdAndDelete(like._id);
+      });
+
       await User.updateMany(
         { _id: photo.author },
         { $pull: { photos: photo._id } }
@@ -255,6 +262,61 @@ export const photoController = {
       return res.redirect("/my-photos");
     } catch (error) {
       console.log(error);
+      next(error);
+    }
+  },
+  likePhoto: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+
+      const photo = await Photo.findById(id);
+      const user = await User.findById(req.user._id);
+      if (!photo) {
+        throw new Error("Photo not found");
+      }
+      const newLike = new Like({
+        author: req.user._id,
+        nameAuthor: `${user?.firstName} ${user?.lastName}`,
+        likeType: "PHOTO",
+        likeTypeId: photo._id,
+      });
+      photo.likes.push(newLike._id);
+
+      await photo.save();
+      await newLike.save();
+
+      req.flash("success_message", "Like photo successfully");
+      return res.redirect("back");
+    } catch (error) {
+      next(error);
+    }
+  },
+  dislikePhoto: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const photo = await Photo.findOne({ _id: id, author: req.user._id });
+
+      if (!photo) {
+        throw new Error("Photo not found");
+      }
+
+      const like = await Like.findOne({
+        author: req.user._id,
+        likeType: "PHOTO",
+        likeTypeId: photo._id,
+      });
+
+      const likeOfPhotoUpdated = photo.likes.filter(
+        (item) => item._id.toString() !== like?._id.toString()
+      );
+
+      await photo.updateOne({
+        likes: likeOfPhotoUpdated,
+      });
+      await like?.remove();
+
+      return res.redirect("back");
+    } catch (error) {
       next(error);
     }
   },

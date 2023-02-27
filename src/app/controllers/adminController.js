@@ -244,7 +244,7 @@ export const adminController = {
 
       const images = req.files;
       images.map(async (image) => {
-        const imageUrl = `http://${req.host}:${process.env.PORT}/uploads/${image.filename}`;
+        const imageUrl = `http://${req.hostname}:${process.env.PORT}/uploads/${image.filename}`;
         const newPhoto = new Photo({
           title: image.filename,
           image: imageUrl,
@@ -391,7 +391,7 @@ export const adminController = {
         if (!user) {
           throw new Error("User not found");
         }
-        const imageUrl = `http://${req.host}:${process.env.PORT}/uploads/${req.file.filename}`;
+        const imageUrl = `http://${req.hostname}:${process.env.PORT}/uploads/${req.file.filename}`;
 
         await user.updateOne({
           ...req.body,

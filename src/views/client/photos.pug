@@ -18,6 +18,7 @@ block photoPage
                   if photo.mode === "private"
                     .myPhoto__private.bg-white 
                       i(class="fa-solid fa-lock")
+                
                 .fade.modal(id="modal__photo" + photo._id)
                   .modal-dialog.modal-dialog-centered
                     .modal-content
@@ -28,6 +29,15 @@ block photoPage
                         .modal-body-image
                           img(src=photo.image , alt="")
                         p.modo-body-description.m-0= photo.description
+                        .like__wrapper.mt-3  
+                          p.like__number.mb-0.mr-3= photo.likes.length
+                          .like__user
+                            if photo.likes.length <= 1
+                              each userLiked,i in photo.likes
+                                span.like__user-name= userLiked.nameAuthor
+                            else
+                              span.like__user-name= photo.likes[0].nameAuthor
+                              span.like__user-more= ` And ${photo.likes.length - 1} more liked` 
                       .modal-footer
                         button.btn.border.border-success(type='button' data-dismiss='modal') Close
           else 

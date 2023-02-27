@@ -1,4 +1,5 @@
 import { Album } from "../models/albumModel";
+import { Like } from "../models/likeModel";
 import { Photo } from "../models/photoModel";
 import { User } from "../models/userModel";
 
@@ -13,6 +14,7 @@ export const albumController = {
       const albums = await Album.find({ author: req.user._id })
         .populate("author")
         .populate("photos")
+        .populate("likes")
         .skip((page - 1) * perPage)
         .limit(perPage);
 
@@ -134,6 +136,10 @@ export const albumController = {
         throw new Error("Delete album failed");
       }
 
+      album.likes.map(async (like) => {
+        await Like.findByIdAndDelete(like._id);
+      });
+
       album.photos.map(async (photo) => {
         const photoDeleted = await Photo.findByIdAndDelete(photo._id);
         await User.updateMany(
@@ -189,6 +195,59 @@ export const albumController = {
       return res.redirect("back");
     } catch (error) {
       console.log(error);
+      next(error);
+    }
+  },
+  likeAlbum: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const user = await User.findById(req.user._id);
+      const album = await Album.findById(id);
+      if (!album) {
+        throw new Error("Photo not found");
+      }
+      const newLike = new Like({
+        author: req.user._id,
+        nameAuthor: `${user?.firstName} ${user?.lastName}`,
+        likeType: "ALBUM",
+        likeTypeId: album._id,
+      });
+      album.likes.push(newLike._id);
+
+      await album.save();
+      await newLike.save();
+
+      req.flash("success_message", "Like album successfully");
+      return res.redirect("back");
+    } catch (error) {
+      next(error);
+    }
+  },
+  dislikeAlbum: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const album = await Album.findOne({ _id: id, author: req.user._id });
+
+      if (!album) {
+        throw new Error("Photo not found");
+      }
+      const like = await Like.findOne({
+        author: req.user._id,
+        likeType: "ALBUM",
+        likeTypeId: album._id,
+      });
+
+      const likeOfPhotoUpdated = album.likes.filter(
+        (item) => item._id.toString() !== like?._id.toString()
+      );
+
+      await album.updateOne({
+        likes: likeOfPhotoUpdated,
+      });
+      await like?.remove();
+
+      return res.redirect("back");
+    } catch (error) {
       next(error);
     }
   },
