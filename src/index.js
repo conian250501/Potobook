@@ -11,10 +11,9 @@ import { connectMongoDB } from "./config/dbConfig";
 import { viewEngine } from "./config/viewEngine";
 import { passportLocal } from "./middleware/passport";
 
-dotenv.config();
-
+dotenv.config({ path: path.join(__dirname, "../.env") });
 const app = express();
-const port = process.env.PORT || 4001;
+const port = process.env.PORT || 8080;
 
 // CONNECT DATABASE
 connectMongoDB
