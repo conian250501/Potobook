@@ -1,21 +1,20 @@
-import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
 import bodyParser from "body-parser";
-import { connectMongoDB } from "./config/dbConfig";
-import { rootRouter } from "./app/router/rootRouter";
-import { viewEngine } from "./config/viewEngine";
-import path from "path";
+import flash from "connect-flash";
+import * as dotenv from "dotenv";
+
+import express from "express";
 import session from "express-session";
 import passport from "passport";
-import flash from "connect-flash";
+import path from "path";
+import { rootRouter } from "./app/router/rootRouter";
+import { connectMongoDB } from "./config/dbConfig";
+import { viewEngine } from "./config/viewEngine";
 import { passportLocal } from "./middleware/passport";
-import mongoose from "mongoose";
 
 dotenv.config();
 
-const port = process.env.PORT || 4001;
 const app = express();
+const port = process.env.PORT || 4001;
 
 // CONNECT DATABASE
 connectMongoDB
