@@ -1,7 +1,6 @@
+import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import flash from "connect-flash";
-import * as dotenv from "dotenv";
-
 import express from "express";
 import session from "express-session";
 import passport from "passport";
@@ -11,9 +10,9 @@ import { connectMongoDB } from "./config/dbConfig";
 import { viewEngine } from "./config/viewEngine";
 import { passportLocal } from "./middleware/passport";
 
-dotenv.config({ path: path.join(__dirname, "../.env") });
+dotenv.config();
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 4000;
 
 // CONNECT DATABASE
 connectMongoDB
