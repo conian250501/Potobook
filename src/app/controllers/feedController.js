@@ -18,17 +18,6 @@ export const feedController = {
 
       const photosReversed = photos.reverse();
 
-      // const photosTest = await Album.findOne({ title: "hihi" }).sort({
-      //   $natural: -1,
-      // });
-      // const albumTest = await Photo.find({}).populate({
-      //   path: "albums",
-      //   match: { title: { $eq: "123" } },
-      //   select: "title -_id",
-      // });
-      // console.log({ albumTest });
-      // console.log({ photosTest });
-
       return res.render("client/feed", {
         title: "feedPhotoPage",
         user: req.user,

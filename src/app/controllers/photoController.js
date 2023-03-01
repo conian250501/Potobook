@@ -53,7 +53,7 @@ export const photoController = {
         throw new Error("User not found");
       }
 
-      const imageUrl = `http://${req.hostname}:${process.env.PORT}/uploads/${req.file.filename}`;
+      const imageUrl = `http://${req.hostname}/uploads/${req.file.filename}`;
 
       const newPhoto = new Photo({
         ...req.body,
@@ -185,7 +185,7 @@ export const photoController = {
       }
 
       if (!albumExist) {
-        const imageUrl = `http://${req.hostname}:${process.env.PORT}/uploads/${req.file.filename}`;
+        const imageUrl = `http://${req.hostname}/uploads/${req.file.filename}`;
         const newAlbum = new Album({
           title: titleAlbum,
           description: descriptionAlbum,
@@ -203,7 +203,7 @@ export const photoController = {
         await newAlbum.save();
         await photo.save();
       } else {
-        const imageUrl = `http://${req.hostname}:${process.env.PORT}/uploads/${req.file.filename}`;
+        const imageUrl = `http://${req.hostname}/uploads/${req.file.filename}`;
         const albumOfPhotoUpdated = photo.albums.filter(
           (album) => album._id.toString() !== albumExist._id.toString()
         );

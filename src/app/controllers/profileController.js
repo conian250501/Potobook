@@ -43,7 +43,7 @@ export const profileController = {
         res.redirect("back");
       }
       console.log(req.file);
-      const imageUrl = `http://${req.hostname}:${process.env.PORT}/uploads/${req.file.filename}`;
+      const imageUrl = `http://${req.hostname}/uploads/${req.file.filename}`;
 
       await User.findByIdAndUpdate(
         { _id },

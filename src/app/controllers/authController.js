@@ -24,7 +24,7 @@ export const authController = {
       const html = `
        <h4>Thanks you for register <3</h4>
        <p>Please go to link below to reset your passwor account</p>
-       <a href="${process.env.BASE_URL}/auth/forgot-password/${user.token}">Reset your password NOW</a>
+       <a href="http://${req.hostname}/auth/forgot-password/${user.token}">Reset your password NOW</a>
        `;
       const isSendMail = await confirmEmail(email, subject, html);
 
@@ -62,11 +62,11 @@ export const authController = {
 
       const hashedPassword = await passwordHelper.hashPassword(newPassword, 10);
 
-      await user.updateOne({
+      await user?.updateOne({
         password: hashedPassword,
       });
 
-      await user.save();
+      await user?.save();
       req.flash("success_message", "Reset password successfully");
       return res.redirect("back");
     } catch (error) {

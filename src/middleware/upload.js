@@ -6,7 +6,7 @@ const storage = multer.diskStorage({
     cb(null, path.join(__dirname, "../public/uploads"));
   },
   filename: function (req, file, cb) {
-    req.body.image = `http://${req.hostname}:${process.env.PORT}/uploads/${file.filename}`;
+    req.body.image = `http://${req.hostname}/uploads/${file.filename}`;
     req.body.images = req.files;
     cb(null, file.fieldname + "-" + Date.now() + "-" + file.originalname);
   },

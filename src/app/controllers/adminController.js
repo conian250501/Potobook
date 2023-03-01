@@ -110,7 +110,7 @@ export const adminController = {
       }
 
       if (!albumExist) {
-        const imageUrl = `http://${req.hostname}:${process.env.PORT}/uploads/${req.file.filename}`;
+        const imageUrl = `http://${req.hostname}/uploads/${req.file.filename}`;
         const newAlbum = new Album({
           title: titleAlbum,
           description: descriptionAlbum,
@@ -128,7 +128,7 @@ export const adminController = {
         await newAlbum.save();
         await photo.save();
       } else {
-        const imageUrl = `http://${req.hostname}:${process.env.PORT}/uploads/${req.file.filename}`;
+        const imageUrl = `http://${req.hostname}/uploads/${req.file.filename}`;
         const albumOfPhotoUpdated = photo.albums.filter(
           (album) => album._id.toString() !== albumExist._id.toString()
         );
@@ -244,7 +244,7 @@ export const adminController = {
 
       const images = req.files;
       images.map(async (image) => {
-        const imageUrl = `http://${req.hostname}:${process.env.PORT}/uploads/${image.filename}`;
+        const imageUrl = `http://${req.hostname}/uploads/${image.filename}`;
         const newPhoto = new Photo({
           title: image.filename,
           image: imageUrl,
@@ -391,7 +391,7 @@ export const adminController = {
         if (!user) {
           throw new Error("User not found");
         }
-        const imageUrl = `http://${req.hostname}:${process.env.PORT}/uploads/${req.file.filename}`;
+        const imageUrl = `http://${req.hostname}/uploads/${req.file.filename}`;
 
         await user.updateOne({
           ...req.body,
