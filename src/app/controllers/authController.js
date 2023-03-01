@@ -125,7 +125,7 @@ export const authController = {
       const html = `
        <h4>Thanks you for register <3</h4>
        <p>Please confirm email to verify your account</p>
-       <a href="${process.env.BASE_URL}/auth/verify-email/${token}">Verify email</a>
+       <a href="http://${req.hostname}/auth/verify-email/${token}">Verify email</a>
        `;
       const isSendMail = await confirmEmail(email, subject, html);
       console.log(isSendMail);
