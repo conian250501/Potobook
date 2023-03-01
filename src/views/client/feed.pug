@@ -1,7 +1,7 @@
 extends ../layout/mainLayout.pug
 block feedPage
   .feedPhoto__container.w-100.bg-white 
-    .feedPhoto__page-list.w-100.d-flex.align-item-center.justify-content-center.p-4
+    .feedPhoto__page-list.w-100.d-flex.align-item-center.justify-content-center.p-3
       a.feedPhoto__page-item(href="/" class=title ==="feedPhotoPage" ? "active" : "") Photo
       a.feedPhoto__page-item(href="/albums" class=title ==="feedAlbumPage" ? "active" : "") Album
 
@@ -34,6 +34,9 @@ block feedPage
                                 i(class="fa-solid fa-heart header__icon   cursor-pointer") 
                           span.amount__like= photo.likes.length
                         p.feedPhoto__content-date.mb-0.text-nowrap 4:56 pm 01/04/2018
+    else 
+      .feedPhoto__body.container.p-0
+       h1.text-center App dont have any photo
       nav(aria-label='Page navigation')
         ul.pagination.justify-content-center.pb-3.flex-wrap
           if page > 1

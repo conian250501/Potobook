@@ -4,37 +4,41 @@ block feedAlbumPage
     .feedPhoto__page-list.w-100.d-flex.align-item-center.justify-content-center.p-3
       a.feedPhoto__page-item(href="/" class=title ==="feedPhotoPage" ? "active" : "") Photo
       a.feedPhoto__page-item(href="/albums" class=title ==="feedAlbumPage" ? "active" : "") Album
-    .feedPhoto__body.container.pb-3.px-3
-      .row.container
-        each album in albums
-          .col-lg-6.col-md-12.col-sm-12.mb-4
-            .row.p-0.container.feedPhoto__item.m-0.p-0
-              .col-lg-6.col-md-6.col-sm-12.p-0
-                .feedPhoto__body-image-list
-                  each photo in album.photos
-                    img.feedPhoto__body-image-item(src= photo.image, alt="")
-              .col-lg-6.col-md-6.col-sm-12.p-3.p-0.feedPhoto__content
-                .feedPhoto__content-top
-                  .user__info.d-flex.align-items-center.justify-content-start 
-                    img(src= album.author.avatar ? album.author.avatar : "/images/avatar-placeholder.jpg" , alt="")
-                    p.user_name.mb-0.ml-2= album.author.firstName + " " + album.author.lastName
-                  h3.feedPhoto__title= album.title
-                  p.feedPhoto__description= album.description
-                .feedPhoto__content-bottom.d-flex.align-items-center.justify-content-between.w-100
-                  if user 
-                    .like__number.d-flex.align-items-center.justify-content-between.w-100
-                      .like__number-right.d-flex.align-items-center.justify-content-start.w-100
-                        if album.likes.find(item => item.author._id.toString() === user._id.toString())
-                          form(action=`/my-albums/${album._id}/unlike/` method="POST")
-                            button.btn-like(type="submit" )
-                              i(class="fa-solid fa-heart header__icon-liked ") 
-                        else 
-                          form(action=`/my-albums/${album._id}/like/` method="POST")
-                            button.btn-like(type="submit" )
-                              i(class="fa-solid fa-heart header__icon ") 
-                        span.amount__like= album.likes.length
+    if albums.length > 0
+      .feedPhoto__body.container.pb-3.px-3
+        .row.container
+          each album in albums
+            .col-lg-6.col-md-12.col-sm-12.mb-4
+              .row.p-0.container.feedPhoto__item.m-0.p-0
+                .col-lg-6.col-md-6.col-sm-12.p-0
+                  .feedPhoto__body-image-list
+                    each photo in album.photos
+                      img.feedPhoto__body-image-item(src= photo.image, alt="")
+                .col-lg-6.col-md-6.col-sm-12.p-3.p-0.feedPhoto__content
+                  .feedPhoto__content-top
+                    .user__info.d-flex.align-items-center.justify-content-start 
+                      img(src= album.author.avatar ? album.author.avatar : "/images/avatar-placeholder.jpg" , alt="")
+                      p.user_name.mb-0.ml-2= album.author.firstName + " " + album.author.lastName
+                    h3.feedPhoto__title= album.title
+                    p.feedPhoto__description= album.description
+                  .feedPhoto__content-bottom.d-flex.align-items-center.justify-content-between.w-100
+                    if user 
+                      .like__number.d-flex.align-items-center.justify-content-between.w-100
+                        .like__number-right.d-flex.align-items-center.justify-content-start.w-100
+                          if album.likes.find(item => item.author._id.toString() === user._id.toString())
+                            form(action=`/my-albums/${album._id}/unlike/` method="POST")
+                              button.btn-like(type="submit" )
+                                i(class="fa-solid fa-heart header__icon-liked ") 
+                          else 
+                            form(action=`/my-albums/${album._id}/like/` method="POST")
+                              button.btn-like(type="submit" )
+                                i(class="fa-solid fa-heart header__icon ") 
+                          span.amount__like= album.likes.length
 
-                      p.feedPhoto__content-date.mb-0.text-nowrap 4:56 pm 01/04/2018
+                        p.feedPhoto__content-date.mb-0.text-nowrap 4:56 pm 01/04/2018
+    else 
+      .feedPhoto__body.container.px-3
+        h1.text-center App dont have any album
     nav(aria-label='Page navigation')
       ul.pagination.justify-content-center.pb-3.flex-wrap
         if page > 1
